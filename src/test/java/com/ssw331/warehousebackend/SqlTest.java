@@ -1,7 +1,7 @@
 package com.ssw331.warehousebackend;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
-import com.ssw331.warehousebackend.DTO.TestItem;
+import com.ssw331.warehousebackend.dao.TestItem;
 import com.ssw331.warehousebackend.mapper.TestItemMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.ssw331.warehousebackend.DTO;
+package com.ssw331.warehousebackend.dao;
 
 import lombok.Data;
 import org.springframework.data.neo4j.core.schema.Id;
@@ -15,11 +15,11 @@ public class Movie {
     @Property
     private String Type;
 
-    @Property
-    private String movie_name;
+    @Property("movie_name")
+    private String movieName;
 
-    @Property
-    private String release_time;
+    @Property("release_time")
+    private String releaseTime;
 
     @Property
     private String time;

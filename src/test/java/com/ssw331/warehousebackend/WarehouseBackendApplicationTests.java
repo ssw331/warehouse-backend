@@ -15,7 +15,7 @@ class WarehouseBackendApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		System.out.println(movieRepository.findById("90").get());
+		System.out.println(movieRepository.countMoviesByReleaseTimeContaining("1991"+ "/" + "3"));
 	}
 
 }
