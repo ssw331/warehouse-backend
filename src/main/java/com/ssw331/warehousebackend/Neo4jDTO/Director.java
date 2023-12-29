@@ -1,4 +1,4 @@
-package com.ssw331.warehousebackend.dao;
+package com.ssw331.warehousebackend.Neo4jDTO;
 
 import lombok.Data;
 import org.springframework.data.neo4j.core.schema.Id;
@@ -6,9 +6,9 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
 
 @Data
-@Node("Actor")
-public class Actor {
+@Node("Director")
+public class Director {
     @Id
-    @Property("actor_name")
-    private String actorName;
+    @Property("director_name")
+    private String directorName;
 }

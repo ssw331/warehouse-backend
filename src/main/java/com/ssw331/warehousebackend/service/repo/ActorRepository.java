@@ -1,9 +1,9 @@
 package com.ssw331.warehousebackend.service.repo;
 
-import com.ssw331.warehousebackend.dao.Actor;
-import com.ssw331.warehousebackend.dao.Collaboration_AA;
-import com.ssw331.warehousebackend.dao.Collaboration_DA;
-import com.ssw331.warehousebackend.dao.ReviewMax_AA;
+import com.ssw331.warehousebackend.Neo4jDTO.Actor;
+import com.ssw331.warehousebackend.Neo4jDTO.Collaboration_AA;
+import com.ssw331.warehousebackend.Neo4jDTO.Collaboration_DA;
+import com.ssw331.warehousebackend.Neo4jDTO.ReviewMax_AA;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.stereotype.Repository;

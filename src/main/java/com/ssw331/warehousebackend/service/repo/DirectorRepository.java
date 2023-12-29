@@ -1,7 +1,7 @@
 package com.ssw331.warehousebackend.service.repo;
 
-import com.ssw331.warehousebackend.dao.Collaboration_DD;
-import com.ssw331.warehousebackend.dao.Director;
+import com.ssw331.warehousebackend.Neo4jDTO.Collaboration_DD;
+import com.ssw331.warehousebackend.Neo4jDTO.Director;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 

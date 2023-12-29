@@ -1,7 +1,7 @@
 package com.ssw331.warehousebackend.controller;
 
-import com.ssw331.warehousebackend.dao.serialization.Result;
-import com.ssw331.warehousebackend.dao.serialization.ResultResponse;
+import com.ssw331.warehousebackend.Neo4jDTO.serialization.Result;
+import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
 import com.ssw331.warehousebackend.service.TimeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

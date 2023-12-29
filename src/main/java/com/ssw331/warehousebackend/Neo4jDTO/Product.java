@@ -1,4 +1,4 @@
-package com.ssw331.warehousebackend.dao;
+package com.ssw331.warehousebackend.Neo4jDTO;
 
 import lombok.Data;
 import org.springframework.data.neo4j.core.schema.Id;

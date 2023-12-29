@@ -1,4 +1,4 @@
-package com.ssw331.warehousebackend.dao.serialization;
+package com.ssw331.warehousebackend.Neo4jDTO.serialization;
 
 import lombok.Data;
 

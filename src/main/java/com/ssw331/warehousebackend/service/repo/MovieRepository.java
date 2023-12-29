@@ -1,6 +1,6 @@
 package com.ssw331.warehousebackend.service.repo;
 
-import com.ssw331.warehousebackend.dao.Movie;
+import com.ssw331.warehousebackend.Neo4jDTO.Movie;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.stereotype.Repository;

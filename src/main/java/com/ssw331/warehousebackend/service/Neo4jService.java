@@ -1,6 +1,6 @@
 package com.ssw331.warehousebackend.service;
 
-import com.ssw331.warehousebackend.dao.*;
+import com.ssw331.warehousebackend.Neo4jDTO.*;
 
 import java.util.List;
 
