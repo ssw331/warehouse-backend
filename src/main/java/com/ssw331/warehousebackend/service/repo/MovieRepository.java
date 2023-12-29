@@ -9,6 +9,8 @@ import java.util.List;
 
 @Repository
 public interface MovieRepository extends Neo4jRepository<Movie, String> {
+    @Query("MATCH (m:Movie)<-[r:DIRECTED]-(a:Director) WHERE a.director_name = $directorName RETURN m.movie_name;")
+    List<String> findMoviesByDirector(String directorName);
 
     int countMoviesByReleaseTimeContaining(String date);
 

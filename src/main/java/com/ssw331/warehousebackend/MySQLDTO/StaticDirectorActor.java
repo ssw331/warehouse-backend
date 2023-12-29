@@ -8,11 +8,11 @@ import lombok.Data;
 @Data
 @TableName("StaticDirectorActor")
 public class StaticDirectorActor {
-    @TableId("actor_name1")
-    private String actorName1;
+    @TableId("director_name")
+    private String directorName;
 
-    @TableField("actor_name2")
-    private String actorName2;
+    @TableField("actor_name")
+    private String actorName;
 
     @TableField("collaboration_number")
     private int collaborationNumber;

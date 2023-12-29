@@ -69,8 +69,8 @@ public class Neo4jServiceImpl implements Neo4jService {
      * @return 此导演导演的电影
      */
     @Override
-    public List<String> searchActorByDirector(String directorName) {
-        return actorRepository.findActorWithDirector(directorName);
+    public List<String> searchMoviesByDirector(String directorName) {
+        return movieRepository.findMoviesByDirector(directorName);
     }
 
     /**
