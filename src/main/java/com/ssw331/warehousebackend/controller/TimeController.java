@@ -20,6 +20,7 @@ import java.util.List;
 public class TimeController {
     TimeService timeService;
 
+
     @Autowired
     private void setTimeService(TimeService timeService) {
         this.timeService = timeService;
@@ -28,15 +29,17 @@ public class TimeController {
     @Operation(summary = "年份")
     @RequestMapping(value = "year", method = RequestMethod.GET)
     public Result<Object> timeYear(@RequestParam int year) {
-        long startTime = System.currentTimeMillis();
-        int data = timeService.searchMoviesByYear(year);
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
+        long startTime1 = System.currentTimeMillis();
         modelTimes.add(0L);
         modelLogs.add("");
+        long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
         modelLogs.add("");
-        modelTimes.add(System.currentTimeMillis() - startTime);
+        long startTime3 = System.currentTimeMillis();
+        int data = timeService.searchMoviesByYear(year);
+        modelTimes.add(System.currentTimeMillis() - startTime3);
         modelLogs.add("MATCH (m:Movie) WHERE m.release_time contains '" + year + "' RETURN count(m);");
         return ResultResponse.success(data, modelTimes, modelLogs);
     }
@@ -44,15 +47,17 @@ public class TimeController {
     @Operation(summary = "年月")
     @RequestMapping(value = "year-month", method = RequestMethod.GET)
     public Result<Object> timeYearMonth(@RequestParam int year, @RequestParam int month) {
-        long startTime = System.currentTimeMillis();
-        int data = timeService.searchMoviesByYM(year, month);
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
+        long startTime1 = System.currentTimeMillis();
         modelTimes.add(0L);
         modelLogs.add("");
+        long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
         modelLogs.add("");
-        modelTimes.add(System.currentTimeMillis() - startTime);
+        long startTime3 = System.currentTimeMillis();
+        int data = timeService.searchMoviesByYM(year, month);
+        modelTimes.add(System.currentTimeMillis() - startTime3);
         modelLogs.add("MATCH (m:Movie) WHERE m.release_time contains '" + year + "/" + month + "' RETURN count(m);");
         return ResultResponse.success(data, modelTimes, modelLogs);
     }
@@ -60,15 +65,17 @@ public class TimeController {
     @Operation(summary = "年月日")
     @RequestMapping(value = "year-month-day", method = RequestMethod.GET)
     public Result<Object> timeYearMonthDay(@RequestParam int year, @RequestParam int month, @RequestParam int day) {
-        long startTime = System.currentTimeMillis();
-        int data = timeService.searchMoviesByYMD(year, month, day);
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
+        long startTime1 = System.currentTimeMillis();
         modelTimes.add(0L);
         modelLogs.add("");
+        long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
         modelLogs.add("");
-        modelTimes.add(System.currentTimeMillis() - startTime);
+        long startTime3 = System.currentTimeMillis();
+        int data = timeService.searchMoviesByYMD(year, month, day);
+        modelTimes.add(System.currentTimeMillis() - startTime3);
         modelLogs.add("MATCH (m:Movie) WHERE m.release_time contains '" + year + "/" + month + "/" + day + "' RETURN count(m);");
         return ResultResponse.success(data, modelTimes, modelLogs);
     }
@@ -76,15 +83,19 @@ public class TimeController {
     @Operation(summary = "年季")
     @RequestMapping(value = "year-season", method = RequestMethod.GET)
     public Result<Object> timeYearSeason(@RequestParam int year, @RequestParam String season) {
-        long startTime = System.currentTimeMillis();
-        int data = timeService.searchMoviesByYS(year, season);
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
+        long startTime1 = System.currentTimeMillis();
         modelTimes.add(0L);
         modelLogs.add("");
+        long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
         modelLogs.add("");
-        modelTimes.add(System.currentTimeMillis() - startTime);
+        long startTime3 = System.currentTimeMillis();
+        int data = timeService.searchMoviesByYS(year, season);
+        modelTimes.add(0L);
+        modelLogs.add("");
+        modelTimes.add(System.currentTimeMillis() - startTime3);
         modelLogs.add("MATCH (m:Movie) WHERE m.release_time contains '" + year + "/" + "1-3 or 4-6 or 7-9 or 10-12" + "' RETURN count(m);");
         return ResultResponse.success(data, modelTimes, modelLogs);
     }
