@@ -6,11 +6,11 @@ import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
 import com.ssw331.warehousebackend.service.Impl.Neo4jServiceImpl;
 import com.ssw331.warehousebackend.service.MovieService;
 import com.ssw331.warehousebackend.service.MySQLService;
+
 import com.ssw331.warehousebackend.service.Neo4jService;
-import com.ssw331.warehousebackend.service.TimeService;
+import com.ssw331.warehousebackend.service.ProductByNameService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.List;
 public class MovieController {
 
     @Autowired
-    private MySQLService mySQLService;
+    private ProductByNameService productByNameService;
     @Autowired
     private  Neo4jService neo4jService;
     @Autowired
@@ -33,8 +33,8 @@ public class MovieController {
         this.neo4jService=neo4jService;
     }
     @Autowired
-    private void setMySQLService(MySQLService mySQLService) {
-        this.mySQLService=mySQLService;
+    private void setProductByNameService(ProductByNameService productByNameService) {
+        this.productByNameService=productByNameService;
     }
 
 
@@ -43,7 +43,7 @@ public class MovieController {
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
         long startTime1 = System.currentTimeMillis();
-        List<Product> dataFromMySQL=mySQLService.getProductsByMovieName(movieName);
+        List<Product> dataFromMySQL= productByNameService.getProductsByMovieName(movieName);
         modelTimes.add(System.currentTimeMillis() - startTime1);
         modelLogs.add("SELECT p.* " +
                 "FROM Product p " +

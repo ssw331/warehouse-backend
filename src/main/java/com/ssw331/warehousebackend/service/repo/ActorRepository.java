@@ -13,8 +13,7 @@ import java.util.List;
 @Repository
 public interface ActorRepository extends Neo4jRepository<Actor, String> {
 
-    @Query("MATCH (a:Actor)-[:ACTED_IN]->(m)<-[:DIRECTED]-(d:Director) WHERE d.director_name = $directorName RETURN a.actor_name;")
-    List<String> findActorWithDirector(String directorName);
+
 
     List<Actor> findActorsByActorName(String actorName);
 

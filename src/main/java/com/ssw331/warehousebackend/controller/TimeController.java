@@ -2,6 +2,7 @@ package com.ssw331.warehousebackend.controller;
 
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.Result;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
+import com.ssw331.warehousebackend.service.MySQLTimeService;
 import com.ssw331.warehousebackend.service.TimeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,11 +20,16 @@ import java.util.List;
 @RequestMapping("time")
 public class TimeController {
     TimeService timeService;
+    MySQLTimeService mySQLTimeService;
 
 
     @Autowired
     private void setTimeService(TimeService timeService) {
         this.timeService = timeService;
+    }
+    @Autowired
+    private void setMySQLTimeService(MySQLTimeService mySQLTimeService) {
+        this.mySQLTimeService = mySQLTimeService;
     }
 
     @Operation(summary = "年份")
@@ -32,8 +38,14 @@ public class TimeController {
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
         long startTime1 = System.currentTimeMillis();
-        modelTimes.add(0L);
-        modelLogs.add("");
+        int dataFromMySQL = mySQLTimeService.getMovieCountByYear(year);
+        modelTimes.add(System.currentTimeMillis() - startTime1);
+        modelLogs.add("SELECT COUNT(m.movie_id) " +
+                "FROM Movie m " +
+                "JOIN Time t ON m.release_time_id = t.release_time_id " +
+                "WHERE t.year = "+year+";");
+
+        //Hive
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
         modelLogs.add("");
@@ -50,8 +62,12 @@ public class TimeController {
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
         long startTime1 = System.currentTimeMillis();
-        modelTimes.add(0L);
-        modelLogs.add("");
+        int dataFromMySQL = mySQLTimeService.getMovieCountByYearAndMonth(year, month);
+        modelTimes.add(System.currentTimeMillis() - startTime1);
+        modelLogs.add("SELECT COUNT(m.movie_id) " +
+                "FROM Movie m " +
+                "JOIN Time t ON m.release_time_id = t.release_time_id " +
+                "WHERE t.year = "+year+"AND t.month = "+month+";");
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
         modelLogs.add("");
@@ -68,10 +84,14 @@ public class TimeController {
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
         long startTime1 = System.currentTimeMillis();
-        modelTimes.add(0L);
-        modelLogs.add("");
+        modelTimes.add(System.currentTimeMillis() - startTime1);
+        int dataFromMySQL = mySQLTimeService.getMovieCountByYearAndMonthAndDay(year, month,day);
+        modelLogs.add("SELECT COUNT(m.movie_id) " +
+                "FROM Movie m " +
+                "JOIN Time t ON m.release_time_id = t.release_time_id " +
+                "WHERE t.year = "+year+"AND t.month = "+month+"AND t.day= "+day+" ;");
         long startTime2 = System.currentTimeMillis();
-        modelTimes.add(0L);
+        modelTimes.add(System.currentTimeMillis() - startTime1);
         modelLogs.add("");
         long startTime3 = System.currentTimeMillis();
         int data = timeService.searchMoviesByYMD(year, month, day);
@@ -86,8 +106,12 @@ public class TimeController {
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
         long startTime1 = System.currentTimeMillis();
-        modelTimes.add(0L);
-        modelLogs.add("");
+        int dataFromMySQL=mySQLTimeService.getMovieCountByQuarter(year, season);
+        modelTimes.add(System.currentTimeMillis() - startTime1);
+        modelLogs.add("SELECT COUNT(*) " +
+                "FROM Movie m " +
+                "JOIN Time t ON m.release_time_id = t.release_time_id " +
+                "WHERE t.season = "+season+"AND t.year = "+year+";");
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
         modelLogs.add("");

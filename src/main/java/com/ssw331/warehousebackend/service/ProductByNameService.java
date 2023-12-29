@@ -4,9 +4,9 @@ import com.ssw331.warehousebackend.MySQLDTO.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
-public interface MySQLService {
-//    int getMovieCountByYear(int year);
+public interface ProductByNameService {
     List<Product> getProductsByMovieName(String movieName);
 
 
