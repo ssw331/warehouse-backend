@@ -4,13 +4,13 @@ import com.ssw331.warehousebackend.MySQLDTO.*;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.Result;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
 import com.ssw331.warehousebackend.service.Impl.Neo4jServiceImpl;
-import com.ssw331.warehousebackend.service.MovieService;
-import com.ssw331.warehousebackend.service.MySQLService;
+import com.ssw331.warehousebackend.service.*;
 
 import com.ssw331.warehousebackend.service.Neo4jService;
 import com.ssw331.warehousebackend.service.ProductByNameService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -74,4 +74,10 @@ public class MovieController {
         List<String> movieNames = movieService.getMoviesByType(type);
         return ResponseEntity.ok(movieNames);
     }
+    @GetMapping("/countByYearAndType")
+    public ResponseEntity<Integer> countMoviesByYearAndType(@RequestParam int year, @RequestParam String type) {
+        int count = movieService.countMoviesByYearAndType(year, type);
+        return ResponseEntity.ok(count);
+    }
+
 }

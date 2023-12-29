@@ -64,4 +64,9 @@ public class MovieServiceImpl implements MovieService {
     public List<String> getMoviesByType(String type) {
         return movieMapper.findMoviesByType(type);
     }
+
+    @Override
+    public int countMoviesByYearAndType(int year, String type) {
+        return movieMapper.countMoviesByYearAndType(year, type);
+    }
 }
