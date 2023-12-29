@@ -9,11 +9,11 @@ import org.springframework.data.neo4j.core.schema.Property;
 @Node("Movie")
 public class Movie {
     @Id
-    @Property
-    private String movie_id;
+    @Property("movie_id")
+    private String movieId;
 
-    @Property
-    private String Type;
+    @Property("Type")
+    private String type;
 
     @Property("movie_name")
     private String movieName;

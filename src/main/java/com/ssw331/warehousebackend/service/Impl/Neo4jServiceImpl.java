@@ -6,6 +6,7 @@ import com.ssw331.warehousebackend.service.Neo4jService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -25,12 +26,12 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     @Override
     public int searchMoviesByYM(int year, int month) {
-        return movieRepository.countMoviesByReleaseTimeContaining(Integer.toString(year) + "/" + Integer.toString(month));
+        return movieRepository.countMoviesByReleaseTimeContaining(year + "/" + month);
     }
 
     @Override
     public int searchMoviesByYMD(int year, int month, int day) {
-        return 0;
+        return movieRepository.countMoviesByReleaseTimeContaining(year + "/" + month + "/" + day);
     }
 
     @Override
@@ -40,7 +41,7 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     @Override
     public List<Movie> searchMoviesByName(String name) {
-        return null;
+        return movieRepository.findMoviesByMovieNameContaining(name);
     }
 
     @Override
@@ -70,7 +71,12 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     @Override
     public List<String> searchMoviesByCategory(String category) {
-        return null;
+        List<Movie> movies = movieRepository.findMoviesByTypeContaining(category);
+        List<String> mNames = new ArrayList<>();
+        movies.forEach((e) -> {
+            mNames.add(e.getMovieName());
+        });
+        return mNames;
     }
 
     @Override
@@ -105,11 +111,11 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     @Override
     public int searchMoviesByYearType(int year, String type) {
-        return 0;
+        return movieRepository.countMoviesByTypeContainingAndReleaseTimeContaining(type, Integer.toString(year));
     }
 
     @Override
     public int searchMoviesByYearDirector(int year, String directorName) {
-        return 0;
+        return movieRepository.countMoviesWithYearAndDirector(Integer.toString(year), directorName);
     }
 }

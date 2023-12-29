@@ -15,7 +15,7 @@ class WarehouseBackendApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		System.out.println(movieRepository.countMoviesByReleaseTimeContaining("1991"+ "/" + "3"));
+		System.out.println(movieRepository.countMoviesByTypeContainingAndReleaseTimeContaining("Science Fiction & Fantasy", "1932"));
 	}
 
 }
