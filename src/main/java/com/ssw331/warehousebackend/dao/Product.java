@@ -16,7 +16,7 @@ public class Product {
     private String movieId;
 
     @Property("Grade")
-    private String grade;
+    private double grade;
 
     @Property("Format")
     private String format;
@@ -25,5 +25,5 @@ public class Product {
     private String cost;
 
     @Property("Comments")
-    private String comments;
+    private int comments;
 }

@@ -14,7 +14,7 @@ public interface Neo4jService {
 
     int searchMoviesByYS(int year, String season);
 
-    List<Movie> searchMoviesByName(String name);
+    List<Product> searchMoviesByName(String name);
 
     List<String> searchMoviesByActor(String actorName);
 

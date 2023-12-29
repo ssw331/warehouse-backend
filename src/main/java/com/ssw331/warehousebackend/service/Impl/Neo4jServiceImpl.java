@@ -45,8 +45,8 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     /**
      *
-     * @param year
-     * @return
+     * @param year 年份 yyyy
+     * @return 这一年内发布的电影
      */
     @Override
     public int searchMoviesByYear(int year) {
@@ -55,9 +55,9 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     /**
      *
-     * @param year
-     * @param month
-     * @return
+     * @param year 年份 yyyy
+     * @param month 月份 MM
+     * @return 这一个月发布的电影
      */
     @Override
     public int searchMoviesByYM(int year, int month) {
@@ -66,10 +66,10 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     /**
      *
-     * @param year
-     * @param month
-     * @param day
-     * @return
+     * @param year 年份 yyyy
+     * @param month 月份 MM
+     * @param day 日期 dd
+     * @return 这一天内发布的电影
      */
     @Override
     public int searchMoviesByYMD(int year, int month, int day) {
@@ -78,9 +78,9 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     /**
      *
-     * @param year
-     * @param season
-     * @return
+     * @param year 年份 yyyy
+     * @param season 季度 QX
+     * @return 这一季度发布的电影
      */
     @Override
     public int searchMoviesByYS(int year, String season) {
@@ -112,18 +112,18 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     /**
      *
-     * @param name
-     * @return
+     * @param name 电影名称
+     * @return 包含此电影名称的电影
      */
     @Override
-    public List<Movie> searchMoviesByName(String name) {
-        return movieRepository.findMoviesByMovieNameContaining(name);
+    public List<Product> searchMoviesByName(String name) {
+        return productRepository.findProductsByMovieName(name);
     }
 
     /**
      *
-     * @param actorName
-     * @return
+     * @param actorName 演员名称
+     * @return 此演员参演的电影
      */
     @Override
     public List<String> searchMoviesByActor(String actorName) {
@@ -132,8 +132,8 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     /**
      *
-     * @param directorName
-     * @return
+     * @param directorName 导演名称
+     * @return 此导演导演的电影
      */
     @Override
     public List<String> searchActorByDirector(String directorName) {
@@ -142,36 +142,32 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     /**
      *
-     * @param directorName
-     * @return
+     * @param directorName 导演名称
+     * @return 与该导演合作过的导演
      */
     @Override
     public List<String> searchDirectorByDirector(String directorName) {
         List<String> directorNames = new ArrayList<>();
-        directorRepository.findDirectorsByDirectorName(directorName).forEach((e) -> {
-            directorNames.add(e.getDirectorName());
-        });
+        directorRepository.findDirectorsByDirectorName(directorName).forEach((e) -> directorNames.add(e.getDirectorName()));
         return directorNames;
     }
 
     /**
      *
-     * @param actorName
-     * @return
+     * @param actorName 演员名称
+     * @return 和该演员合作过的演员
      */
     @Override
     public List<String> searchActorByActor(String actorName) {
         List<String> actorNames = new ArrayList<>();
-        actorRepository.findActorsByActorName(actorName).forEach((e) -> {
-            actorNames.add(e.getActorName());
-        });
+        actorRepository.findActorsByActorName(actorName).forEach((e) -> actorNames.add(e.getActorName()));
         return actorNames;
     }
 
     /**
      *
-     * @param actorName
-     * @return
+     * @param actorName 演员名称
+     * @return 和该演员合作的导演
      */
     @Override
     public List<String> searchDirectorByActor(String actorName) {
@@ -180,23 +176,21 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     /**
      *
-     * @param category
-     * @return
+     * @param category 类别
+     * @return 在这一类别下的电影
      */
     @Override
     public List<String> searchMoviesByCategory(String category) {
         List<Movie> movies = movieRepository.findMoviesByTypeContaining(category);
         List<String> mNames = new ArrayList<>();
-        movies.forEach((e) -> {
-            mNames.add(e.getMovieName());
-        });
+        movies.forEach((e) -> mNames.add(e.getMovieName()));
         return mNames;
     }
 
     /**
      *
-     * @param grade
-     * @return
+     * @param grade 评分
+     * @return 高于此评分的电影
      */
     @Override
     public List<String> searchMoviesByGradeBetter(double grade) {
@@ -206,7 +200,7 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     /**
      *
-     * @return
+     * @return 评分高于4.0的电影
      */
     @Override
     public List<String> searchMoviesByReviewPositive() {
@@ -214,8 +208,8 @@ public class Neo4jServiceImpl implements Neo4jService {
     }
 
     /**
-     * TODO
-     * @return
+     *
+     * @return 合作次数最多的导演与演员
      */
     @Override
     public List<Collaboration_DA> searchCollaborationInDA() {
@@ -225,8 +219,8 @@ public class Neo4jServiceImpl implements Neo4jService {
     }
 
     /**
-     * TODO
-     * @return
+     *
+     * @return 合作次数最多的导演们
      */
     @Override
     public List<Collaboration_DD> searchCollaborationInDD() {
@@ -234,8 +228,8 @@ public class Neo4jServiceImpl implements Neo4jService {
     }
 
     /**
-     * TODO
-     * @return
+     *
+     * @return 合作次数最多的演员们
      */
     @Override
     public List<Collaboration_AA> searchCollaborationInAA() {
@@ -243,19 +237,19 @@ public class Neo4jServiceImpl implements Neo4jService {
     }
 
     /**
-     * TODO
-     * @return
+     *
+     * @return 热度最高的电影的演员
      */
     @Override
     public List<ReviewMax_AA> searchByReviewAA(String type) {
-        return null;
+        return actorRepository.findActorsWithReviewsAndType(type);
     }
 
     /**
      *
-     * @param year
-     * @param type
-     * @return
+     * @param year 年份 yyyy
+     * @param type 类别
+     * @return 在这一年内发布的该类别下的电影
      */
     @Override
     public int searchMoviesByYearType(int year, String type) {
@@ -264,9 +258,9 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     /**
      *
-     * @param year
-     * @param directorName
-     * @return
+     * @param year 年份 yyyy
+     * @param directorName 导演名称
+     * @return 在这一年内由该导演导演的电影
      */
     @Override
     public int searchMoviesByYearDirector(int year, String directorName) {

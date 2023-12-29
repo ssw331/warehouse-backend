@@ -18,7 +18,7 @@ class WarehouseBackendApplicationTests {
 
     @Test
     public void contextLoads() {
-        System.out.println(neo4jService.searchCollaborationInDA());
+        System.out.println(neo4jService.searchMoviesByName("Harry Potter"));
     }
 
 }

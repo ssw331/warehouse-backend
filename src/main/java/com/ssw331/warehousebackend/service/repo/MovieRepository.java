@@ -9,12 +9,8 @@ import java.util.List;
 
 @Repository
 public interface MovieRepository extends Neo4jRepository<Movie, String> {
-    @Query("MATCH (m:Movie) WHERE m.movie_id = $movieId return m.movie_name;")
-    String findByMovieId(String movieId);
 
     int countMoviesByReleaseTimeContaining(String date);
-
-    List<Movie> findMoviesByMovieNameContaining(String name);
 
     List<Movie> findMoviesByTypeContaining(String Type);
 
