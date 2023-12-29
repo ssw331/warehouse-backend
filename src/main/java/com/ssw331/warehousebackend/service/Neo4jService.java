@@ -28,7 +28,7 @@ public interface Neo4jService {
 
     List<String> searchMoviesByCategory(String category);
 
-    List<String> searchMoviesByGradeBetter(String grade);
+    List<String> searchMoviesByGradeBetter(double grade);
 
     List<String> searchMoviesByReviewPositive();
 

@@ -1,5 +1,6 @@
 package com.ssw331.warehousebackend;
 
+import com.ssw331.warehousebackend.service.Neo4jService;
 import com.ssw331.warehousebackend.service.repo.ActorRepository;
 import com.ssw331.warehousebackend.service.repo.MovieRepository;
 import com.ssw331.warehousebackend.service.repo.ProductRepository;
@@ -13,14 +14,11 @@ import org.springframework.test.context.ContextConfiguration;
 class WarehouseBackendApplicationTests {
 
     @Autowired
-    private MovieRepository movieRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
+    Neo4jService neo4jService;
 
     @Test
     public void contextLoads() {
-        System.out.println(productRepository.findAll());
+        System.out.println(neo4jService.searchMoviesByGradeBetter(4.5));
     }
 
 }

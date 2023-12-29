@@ -3,6 +3,7 @@ package com.ssw331.warehousebackend.service.Impl;
 import com.ssw331.warehousebackend.dao.*;
 import com.ssw331.warehousebackend.service.repo.MovieRepository;
 import com.ssw331.warehousebackend.service.Neo4jService;
+import com.ssw331.warehousebackend.service.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,9 +15,16 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     MovieRepository movieRepository;
 
+    ProductRepository productRepository;
+
     @Autowired
     private void setMovieRepository(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
+    }
+
+    @Autowired
+    private void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -80,9 +88,8 @@ public class Neo4jServiceImpl implements Neo4jService {
     }
 
     @Override
-    public List<String> searchMoviesByGradeBetter(String grade) {
-//        List<>
-        return null;
+    public List<String> searchMoviesByGradeBetter(double grade) {
+        return movieRepository.findWithGrade(grade);
     }
 
     @Override

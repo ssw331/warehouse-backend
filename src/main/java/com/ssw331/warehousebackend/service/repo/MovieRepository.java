@@ -9,6 +9,9 @@ import java.util.List;
 
 @Repository
 public interface MovieRepository extends Neo4jRepository<Movie, String> {
+    @Query("MATCH (m:Movie) WHERE m.movie_id = $movieId return m.movie_name;")
+    String findByMovieId(String movieId);
+
     int countMoviesByReleaseTimeContaining(String date);
 
     List<Movie> findMoviesByMovieNameContaining(String name);
@@ -23,7 +26,7 @@ public interface MovieRepository extends Neo4jRepository<Movie, String> {
     @Query("MATCH (m:Movie)<-[r:ACTED_IN]-(a:Actor) WHERE a.actor_name = $actorName RETURN m.movie_name;")
     List<String> findMoviesByActor(String actorName);
 
-//    @Query("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE p.product_id='B000G1TQ8U' RETURN m.movie_name, p.Grade;")
-//    List<movieNameAndGrade> findWithGrade();
+    @Query("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE p.Grade >= $grade RETURN m.movie_name;")
+    List<String> findWithGrade(double grade);
 
 }
