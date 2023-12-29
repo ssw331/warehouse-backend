@@ -38,7 +38,7 @@ public interface Neo4jService {
 
     List<Collaboration_AA> searchCollaborationInAA();
 
-    List<ReviewMax_AA> searchByReviewAA();
+    List<ReviewMax_AA> searchByReviewAA(String category);
 
     int searchMoviesByYearType(int year, String type);
 

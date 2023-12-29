@@ -18,7 +18,7 @@ class WarehouseBackendApplicationTests {
 
     @Test
     public void contextLoads() {
-        System.out.println(neo4jService.searchMoviesByGradeBetter(4.5));
+        System.out.println(neo4jService.searchCollaborationInDA());
     }
 
 }
