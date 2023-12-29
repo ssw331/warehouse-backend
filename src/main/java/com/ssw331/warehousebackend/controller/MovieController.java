@@ -4,6 +4,7 @@ import com.ssw331.warehousebackend.MySQLDTO.*;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.Result;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
 import com.ssw331.warehousebackend.service.Impl.Neo4jServiceImpl;
+import com.ssw331.warehousebackend.service.MovieService;
 import com.ssw331.warehousebackend.service.MySQLService;
 import com.ssw331.warehousebackend.service.Neo4jService;
 import com.ssw331.warehousebackend.service.TimeService;
@@ -24,6 +25,8 @@ public class MovieController {
     private MySQLService mySQLService;
     @Autowired
     private  Neo4jService neo4jService;
+    @Autowired
+    private MovieService movieService;
 
     @Autowired
     private void setNeo4jService(Neo4jService neo4jService){
@@ -58,5 +61,11 @@ public class MovieController {
         modelTimes.add(System.currentTimeMillis() - startTime3);
         modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE m.movie_name contains "+movieName+" RETURN p;");
         return ResultResponse.success(data, modelTimes, modelLogs);
+    }
+
+    @GetMapping("/highGradeProducts")
+    public ResponseEntity<List<Movie>> getMoviesWithHighGradeProducts() {
+        List<Movie> movies = movieService.getMoviesWithHighGradeProducts();
+        return ResponseEntity.ok(movies);
     }
 }
