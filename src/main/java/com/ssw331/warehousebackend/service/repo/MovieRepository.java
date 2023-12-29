@@ -1,10 +1,8 @@
-package com.ssw331.warehousebackend.service;
+package com.ssw331.warehousebackend.service.repo;
 
 import com.ssw331.warehousebackend.dao.Movie;
-import org.junit.runners.Parameterized;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,5 +19,11 @@ public interface MovieRepository extends Neo4jRepository<Movie, String> {
 
     @Query("MATCH (m:Movie)<-[r:DIRECTED]-(d:Director) WHERE m.release_time contains $year and d.director_name = $directorName return count(m);")
     int countMoviesWithYearAndDirector(String year, String directorName);
+
+    @Query("MATCH (m:Movie)<-[r:ACTED_IN]-(a:Actor) WHERE a.actor_name = $actorName RETURN m.movie_name;")
+    List<String> findMoviesByActor(String actorName);
+
+//    @Query("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE p.product_id='B000G1TQ8U' RETURN m.movie_name, p.Grade;")
+//    List<movieNameAndGrade> findWithGrade();
 
 }

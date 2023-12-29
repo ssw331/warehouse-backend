@@ -1,7 +1,7 @@
 package com.ssw331.warehousebackend.service.Impl;
 
 import com.ssw331.warehousebackend.dao.*;
-import com.ssw331.warehousebackend.service.MovieRepository;
+import com.ssw331.warehousebackend.service.repo.MovieRepository;
 import com.ssw331.warehousebackend.service.Neo4jService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -46,7 +46,7 @@ public class Neo4jServiceImpl implements Neo4jService {
 
     @Override
     public List<String> searchMoviesByActor(String actorName) {
-        return null;
+        return movieRepository.findMoviesByActor(actorName);
     }
 
     @Override
@@ -80,7 +80,8 @@ public class Neo4jServiceImpl implements Neo4jService {
     }
 
     @Override
-    public List<String> searchMoviesByReviewBetter(String grade) {
+    public List<String> searchMoviesByGradeBetter(String grade) {
+//        List<>
         return null;
     }
 
