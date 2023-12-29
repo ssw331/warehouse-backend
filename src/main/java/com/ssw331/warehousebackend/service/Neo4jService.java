@@ -6,14 +6,6 @@ import java.util.List;
 
 public interface Neo4jService {
 
-    int searchMoviesByYear(int year);
-
-    int searchMoviesByYM(int year, int month);
-
-    int searchMoviesByYMD(int year, int month, int day);
-
-    int searchMoviesByYS(int year, String season);
-
     List<Product> searchMoviesByName(String name);
 
     List<String> searchMoviesByActor(String actorName);
