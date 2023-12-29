@@ -25,4 +25,7 @@ public interface ActorRepository extends Neo4jRepository<Actor, String> {
 
     @Query("MATCH (m:Movie)-[:INCLUDE]->(p:Product) WHERE m.Type contains $type With m.movie_id as mid, sum(p.Comments) AS sumC ORDER BY sum(p.Comments) DESC MATCH (a1:Actor)-[:ACTED_IN]->(n:Movie)<-[:ACTED_IN]-(a2:Actor) WHERE n.movie_id=mid RETURN a1.actor_name as actor1, a2.actor_name as actor2 LIMIT 50;")
     List<ReviewMax_AA> findActorsWithReviewsAndType(String type);
+
+    @Query("MATCH (a:Actor)-[:ACTED_IN]->(m)<-[:DIRECTED]-(d:Director) WHERE d.director_name = $directorName RETURN a.actor_name;")
+    List<String> findActorWithDirector(String directorName);
 }

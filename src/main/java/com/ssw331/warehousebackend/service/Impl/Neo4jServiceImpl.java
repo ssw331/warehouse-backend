@@ -72,7 +72,10 @@ public class Neo4jServiceImpl implements Neo4jService {
     public List<String> searchMoviesByDirector(String directorName) {
         return movieRepository.findMoviesByDirector(directorName);
     }
-
+    @Override
+    public List<String> searchActorByDirector(String directorName) {
+        return actorRepository.findActorWithDirector(directorName);
+    }
     /**
      *
      * @param directorName 导演名称
@@ -80,9 +83,7 @@ public class Neo4jServiceImpl implements Neo4jService {
      */
     @Override
     public List<String> searchDirectorByDirector(String directorName) {
-        List<String> directorNames = new ArrayList<>();
-        directorRepository.findDirectorsByDirectorName(directorName).forEach((e) -> directorNames.add(e.getDirectorName()));
-        return directorNames;
+        return directorRepository.findDirectorsByDirectorName(directorName);
     }
 
     /**

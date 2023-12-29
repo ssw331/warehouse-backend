@@ -8,7 +8,8 @@ import org.springframework.data.neo4j.repository.query.Query;
 import java.util.List;
 
 public interface DirectorRepository extends Neo4jRepository<Director, String> {
-    List<Director> findDirectorsByDirectorName(String directorName);
+    @Query("MATCH (d1:Director)-[:COOPERATE]->(d2:Director) WHERE d1.director_name = $directorName RETURN d2.director_name;")
+    List<String> findDirectorsByDirectorName(String directorName);
 
     @Query("MATCH (a:Actor)-[:ACTED_IN]->(m)<-[:DIRECTED]-(d:Director) WHERE a.actor_name = $actorName RETURN d.director_name;")
     List<String> findDirectorsWithActor(String actorName);

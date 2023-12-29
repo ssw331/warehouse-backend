@@ -11,6 +11,7 @@ public interface Neo4jService {
     List<String> searchMoviesByActor(String actorName);
 
     List<String> searchMoviesByDirector(String directorName);
+    List<String> searchActorByDirector(String directorName);
 
     List<String> searchDirectorByDirector(String directorName);
 
