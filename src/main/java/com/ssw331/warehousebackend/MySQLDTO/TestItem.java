@@ -1,4 +1,4 @@
-package com.ssw331.warehousebackend.DTO;
+package com.ssw331.warehousebackend.MySQLDTO;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

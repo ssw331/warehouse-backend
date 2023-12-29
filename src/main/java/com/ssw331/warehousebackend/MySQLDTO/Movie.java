@@ -1,26 +1,35 @@
-package com.ssw331.warehousebackend.DTO;
+package com.ssw331.warehousebackend.MySQLDTO;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
 
 @Data
-@Node("Movie")
+@TableName("Movie")
 public class Movie {
     @Id
     @Property
-    private String movie_id;
+    @Getter
+    private int movie_id;
 
     @Property
+    @Getter
     private String Type;
 
     @Property
+    @Getter
     private String movie_name;
 
     @Property
-    private String release_time;
+    @Getter
+    private int release_time_id;
 
     @Property
+    @Getter
     private String time;
+
+
 }

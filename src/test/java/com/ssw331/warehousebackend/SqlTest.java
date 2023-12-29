@@ -1,24 +1,26 @@
 package com.ssw331.warehousebackend;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
-import com.ssw331.warehousebackend.DTO.TestItem;
-import com.ssw331.warehousebackend.mapper.TestItemMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.List;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@DS("mysql")
+@AutoConfigureMockMvc
 public class SqlTest {
     @Autowired
-    private TestItemMapper testItemMapper;
+    private MockMvc mockMvc;
 
     @Test
-    void connect() {
-        List<TestItem> items = testItemMapper.selectList(null);
-        items.forEach(System.out::println);
+    public void getProductsByMovieNameTest() throws Exception {
+        String movieName = "TRUST 22                                                                                                         ";
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie?movieName=" + movieName))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
-
 }

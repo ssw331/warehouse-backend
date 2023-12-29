@@ -15,7 +15,7 @@ class WarehouseBackendApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		System.out.println(movieRepository.findById("90").get());
+		System.out.println(movieRepository.findById(Integer.valueOf(String.valueOf(90))).get());
 	}
 
 }
