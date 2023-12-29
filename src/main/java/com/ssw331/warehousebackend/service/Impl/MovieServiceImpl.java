@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -26,14 +27,29 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> getMoviesWithHighGradeProducts() {
-        List<Product> products = productMapper.selectList(new QueryWrapper<Product>().gt("grade", 4));
+// 获取所有评分大于 4.9 的产品
+        List<Product> allProducts = productMapper.selectList(new QueryWrapper<Product>().gt("grade", 4.9));
+
+        // 进一步筛选出评论数量大于 100 的产品
+        List<Product> filteredProducts = allProducts.stream()
+                .filter(p -> p.getCommentNumber() > 990)
+                .collect(Collectors.toList());
+
+        System.out.println(filteredProducts.size());
+
+
         List<Movie> movies = new ArrayList<>();
 
-        for (Product product : products) {
-            String productId = product.getProductId().replace("\r", "");
-            List<MovieProduct> movieProducts = movieProductMapper.selectList(new QueryWrapper<MovieProduct>().eq("product_id", productId));
 
-            for (MovieProduct movieProduct : movieProducts) {
+
+        for (Product product : filteredProducts) {
+            String productId = product.getProductId().replace("\r", "");
+            // 获取MovieProduct表中所有记录并清理product_id字段
+            List<MovieProduct> allMovieProducts = movieProductMapper.selectList(new QueryWrapper<>());
+            List<MovieProduct> cleanedMovieProducts = allMovieProducts.stream()
+                    .filter(mp -> mp.getProductId().replace("\r", "").equals(productId))
+                    .collect(Collectors.toList());
+            for (MovieProduct movieProduct : cleanedMovieProducts) {
                 Movie movie = movieMapper.selectById(movieProduct.getMovieId());
                 if (movie != null && !movies.contains(movie)) {
                     movies.add(movie);
@@ -42,5 +58,10 @@ public class MovieServiceImpl implements MovieService {
         }
 
         return movies;
+    }
+
+    @Override
+    public List<String> getMoviesByType(String type) {
+        return movieMapper.findMoviesByType(type);
     }
 }

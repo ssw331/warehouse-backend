@@ -14,5 +14,7 @@ public interface MovieMapper extends BaseMapper<Movie> {
             "JOIN Product p ON mp.product_id = p.product_id " +
             "WHERE p.grade > 4")
     List<Movie> findMoviesWithHighGradeProducts();
+    @Select("SELECT movie_name FROM Movie WHERE Type LIKE CONCAT('%', #{type}, '%')")
+    List<String> findMoviesByType(String type);
 }
 

@@ -68,4 +68,10 @@ public class MovieController {
         List<Movie> movies = movieService.getMoviesWithHighGradeProducts();
         return ResponseEntity.ok(movies);
     }
+
+    @GetMapping("/byType")
+    public ResponseEntity<List<String>> getMoviesByType(@RequestParam String type) {
+        List<String> movieNames = movieService.getMoviesByType(type);
+        return ResponseEntity.ok(movieNames);
+    }
 }
