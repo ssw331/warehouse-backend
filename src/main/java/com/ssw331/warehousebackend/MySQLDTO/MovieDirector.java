@@ -10,7 +10,6 @@ import lombok.Data;
 public class MovieDirector {
     @TableId("movie_id")
     private int movieId;
-
     @TableField("director_name")
     private String directorName;
 }
