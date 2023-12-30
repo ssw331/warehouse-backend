@@ -40,11 +40,13 @@ public class RelationController {
         long startTime1 = System.currentTimeMillis();
         List< StaticDirectorActor> directorActors=relationService.getTop20DirectorActorCollaborations();
         modelTimes.add(System.currentTimeMillis() - startTime1);
-        modelLogs.add("SELECT p.* " +
-                "FROM Product p " +
-                "JOIN MovieProduct mp ON p.product_id = mp.product_id " +
-                "JOIN Movie m ON mp.movie_id = m.movie_id " +
-                "WHERE m.movie_name LIKE "+";");
+        modelLogs.add("SELECT d.*, a.* " +
+                "FROM Director d " +
+                "JOIN StaticDirectorActor sda ON d.director_id = sda.director_id " +
+                "JOIN Actor a ON sda.actor_id = a.actor_id " +
+                "ORDER BY sda.collaboration_number DESC " +
+                "LIMIT 20");
+
 
         //hive待写
         long startTime2 = System.currentTimeMillis();
@@ -68,11 +70,12 @@ public class RelationController {
         long startTime1 = System.currentTimeMillis();
         List<StaticActorActor> actorActors=relationService.getTop20ActorActorCollaborations();
         modelTimes.add(System.currentTimeMillis() - startTime1);
-        modelLogs.add("SELECT p.* " +
-                "FROM Product p " +
-                "JOIN MovieProduct mp ON p.product_id = mp.product_id " +
-                "JOIN Movie m ON mp.movie_id = m.movie_id " +
-                "WHERE m.movie_name LIKE "+";");
+        modelLogs.add("SELECT a.* " +
+                "FROM Actor a " +
+                "JOIN StaticActorActor saa ON a.actor_id = saa.actor_id " +
+                "ORDER BY saa.collaboration_number DESC " +
+                "LIMIT 20");
+
 
         //hive待写
         long startTime2 = System.currentTimeMillis();
@@ -97,9 +100,10 @@ public class RelationController {
         modelTimes.add(System.currentTimeMillis() - startTime1);
         modelLogs.add("SELECT p.* " +
                 "FROM Product p " +
-                "JOIN MovieProduct mp ON p.product_id = mp.product_id " +
-                "JOIN Movie m ON mp.movie_id = m.movie_id " +
-                "WHERE m.movie_name LIKE "+";");
+                "JOIN StaticDirectorDirector sdd ON p.product_id = sdd.product_id " +
+                "ORDER BY sdd.collaboration_number DESC " +
+                "LIMIT 20");
+
 
         //hive待写
         long startTime2 = System.currentTimeMillis();

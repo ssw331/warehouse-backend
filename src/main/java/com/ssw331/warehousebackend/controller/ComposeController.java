@@ -52,7 +52,7 @@ public class ComposeController {
         int data = neo4jService.searchMoviesByYearType(year, type);
         modelTimes.add(System.currentTimeMillis() - startTime3);
         modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE m.movie_name contains  RETURN p;");
-        return ResultResponse.success(data, modelTimes, modelLogs);
+        return ResultResponse.success(count, modelTimes, modelLogs);
     }
 
     @GetMapping("/year-director")
