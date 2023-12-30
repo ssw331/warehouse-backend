@@ -1,5 +1,6 @@
 package com.ssw331.warehousebackend.service.Impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ssw331.warehousebackend.MySQLDTO.Movie;
 import com.ssw331.warehousebackend.MySQLDTO.MovieProduct;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@DS("hive")
 public class MovieServiceImpl implements MovieService {
 
     @Autowired
