@@ -3,6 +3,7 @@ package com.ssw331.warehousebackend.controller;
 import com.ssw331.warehousebackend.MySQLDTO.*;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.Result;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
+import com.ssw331.warehousebackend.hiveService.HiveMovieService;
 import com.ssw331.warehousebackend.service.Impl.Neo4jServiceImpl;
 import com.ssw331.warehousebackend.service.*;
 
@@ -25,6 +26,8 @@ public class ComposeController {
     private  Neo4jService neo4jService;
     @Autowired
     private MovieService movieService;
+    @Autowired
+    private HiveMovieService hiveMovieService;
 
     @Autowired
     private void setNeo4jService(Neo4jService neo4jService){
@@ -45,8 +48,11 @@ public class ComposeController {
 
         //hive待写
         long startTime2 = System.currentTimeMillis();
-        modelTimes.add(0L);
-        modelLogs.add("");
+        count = hiveMovieService.countMoviesByYearAndType(year, type);
+        modelTimes.add(System.currentTimeMillis() - startTime2);
+        modelLogs.add("MATCH (m:Movie)-[:RELEASED_IN]->(t:Time) " +
+                "WHERE t.year = $year AND m.Type CONTAINS $type " +
+                "RETURN COUNT(m)");
 
         long startTime3 = System.currentTimeMillis();
         int data = neo4jService.searchMoviesByYearType(year, type);
@@ -60,7 +66,7 @@ public class ComposeController {
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
         long startTime1 = System.currentTimeMillis();
-        int count = movieService.countMoviesByYearAndType(year, director_name);
+        int count = movieService.countMoviesByYearAndType(year, director_name); //?
         modelTimes.add(System.currentTimeMillis() - startTime1);
         modelLogs.add("SELECT COUNT(*) " +
                 "FROM Movie m " +
@@ -70,8 +76,12 @@ public class ComposeController {
 
         //hive待写
         long startTime2 = System.currentTimeMillis();
-        modelTimes.add(0L);
-        modelLogs.add("");
+        modelTimes.add(System.currentTimeMillis() - startTime2);
+        count = hiveMovieService.countMoviesByYearAndType(year, director_name);
+        modelLogs.add("SELECT COUNT(*) " +
+                "FROM Movie m " +
+                "JOIN Time t ON m.release_time_id = t.release_time_id " +
+                "WHERE t.year = :year AND m.Type LIKE CONCAT('%', :type, '%')");
 
         long startTime3 = System.currentTimeMillis();
         int data = neo4jService.searchMoviesByYearDirector(year, director_name);

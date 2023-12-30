@@ -4,6 +4,7 @@ import com.ssw331.warehousebackend.MySQLDTO.*;
 import com.ssw331.warehousebackend.Neo4jDTO.Movie;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.Result;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
+import com.ssw331.warehousebackend.hiveService.HiveMovieService;
 import com.ssw331.warehousebackend.service.Impl.Neo4jServiceImpl;
 import com.ssw331.warehousebackend.service.*;
 
@@ -26,6 +27,8 @@ public class CategoryController {
     private  Neo4jService neo4jService;
     @Autowired
     private MovieService movieService;
+    @Autowired
+    private HiveMovieService hiveMovieService;
 
     @Autowired
     private void setNeo4jService(Neo4jService neo4jService){
@@ -46,8 +49,11 @@ public class CategoryController {
 
 
         long startTime2 = System.currentTimeMillis();
+        movieNames = hiveMovieService.getMoviesByType(type);
         modelTimes.add(System.currentTimeMillis() - startTime2);
-        modelLogs.add("");
+        modelLogs.add("SELECT m.movie_name " +
+                "FROM Movie m " +
+                "WHERE m.Type LIKE CONCAT('%', :type, '%')");
 
         long startTime3 = System.currentTimeMillis();
         List<String> data = neo4jService.searchMoviesByCategory(type);

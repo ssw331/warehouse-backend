@@ -3,6 +3,7 @@ package com.ssw331.warehousebackend.controller;
 import com.ssw331.warehousebackend.MySQLDTO.*;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.Result;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
+import com.ssw331.warehousebackend.hiveService.HiveMovieService;
 import com.ssw331.warehousebackend.service.Impl.Neo4jServiceImpl;
 import com.ssw331.warehousebackend.service.*;
 
@@ -26,6 +27,8 @@ public class ReviewController {
     private  Neo4jService neo4jService;
     @Autowired
     private MovieService movieService;
+    @Autowired
+    private HiveMovieService hiveMovieService;
 
     @Autowired
     private void setNeo4jService(Neo4jService neo4jService){
@@ -50,8 +53,13 @@ public class ReviewController {
 
         //hive待写
         long startTime2 = System.currentTimeMillis();
-        modelTimes.add(0L);
-        modelLogs.add("");
+        movies = hiveMovieService.getMoviesWithHighGradeProducts();
+        modelTimes.add(System.currentTimeMillis() - startTime2);
+        modelLogs.add("SELECT m.* " +
+                "FROM Movie m " +
+                "JOIN MovieProduct mp ON m.movie_id = mp.movie_id " +
+                "JOIN Product p ON mp.product_id = p.product_id " +
+                "WHERE p.grade > 4.9 AND p.comment_number > 990");
 
         long startTime3 = System.currentTimeMillis();
 //        List<String> data = neo4jService.searchMoviesByReviewPositive();

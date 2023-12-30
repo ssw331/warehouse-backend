@@ -2,6 +2,7 @@ package com.ssw331.warehousebackend.controller;
 
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.Result;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
+import com.ssw331.warehousebackend.hiveService.HiveMovieActorService;
 import com.ssw331.warehousebackend.service.MovieActorService;
 import com.ssw331.warehousebackend.service.MovieDirectorService;
 import com.ssw331.warehousebackend.service.Neo4jService;
@@ -22,6 +23,8 @@ public class MovieActorController {
 
     @Autowired
     private MovieActorService movieActorService;
+    @Autowired
+    private HiveMovieActorService hiveMovieActorService;
     @Autowired
     private Neo4jService neo4jService;
 
@@ -52,8 +55,12 @@ public class MovieActorController {
 
         //hive待写
         long startTime2 = System.currentTimeMillis();
-        modelTimes.add(0L);
-        modelLogs.add("");
+        dataFromMySQL = hiveMovieActorService.getMovieNamesByActorName(actorName);
+        modelTimes.add(System.currentTimeMillis() - startTime2);
+        modelLogs.add("SELECT m.movie_name " +
+                "FROM MovieActor md " +
+                "JOIN Movie m ON md.movie_id = m.movie_id " +
+                "WHERE md.actor_name = "+actorName+" ; ");
 
         long startTime3 = System.currentTimeMillis();
         List<String> data = neo4jService.searchMoviesByActor(actorName);
