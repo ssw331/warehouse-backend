@@ -11,7 +11,6 @@ import com.ssw331.warehousebackend.mapper.*;
 import java.util.List;
 
 @SpringBootTest
-@DS("mysql")
 public class SqlTest {
     @Autowired
 private TimeMapper timeMapper;
