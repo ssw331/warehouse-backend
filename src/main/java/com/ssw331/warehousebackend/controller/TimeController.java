@@ -48,7 +48,11 @@ public class TimeController {
         //Hive
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT COUNT(m.movie_id) " +
+                "FROM Movie m " +
+                "JOIN Time t ON m.release_time_id = t.release_time_id " +
+                "WHERE t.year = " + year);
+
         long startTime3 = System.currentTimeMillis();
         int data = timeService.searchMoviesByYear(year);
         modelTimes.add(System.currentTimeMillis() - startTime3);
@@ -68,9 +72,17 @@ public class TimeController {
                 "FROM Movie m " +
                 "JOIN Time t ON m.release_time_id = t.release_time_id " +
                 "WHERE t.year = "+year+"AND t.month = "+month+";");
+
+        //hive
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT COUNT(m.movie_id) " +
+                "FROM Movie m " +
+                "JOIN Time t ON m.release_time_id = t.release_time_id " +
+                "WHERE t.year = " + year + " AND t.month = " + month);
+
+
+
         long startTime3 = System.currentTimeMillis();
         int data = timeService.searchMoviesByYM(year, month);
         modelTimes.add(System.currentTimeMillis() - startTime3);
@@ -91,9 +103,17 @@ public class TimeController {
                 "FROM Movie m " +
                 "JOIN Time t ON m.release_time_id = t.release_time_id " +
                 "WHERE t.year = "+year+"AND t.month = "+month+"AND t.day= "+day+" ;");
+
+        //hive
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT COUNT(m.movie_id) " +
+                "FROM Movie m " +
+                "JOIN Time t ON m.release_time_id = t.release_time_id " +
+                "WHERE t.year = " + year + " AND t.month = " + month + " AND t.day = " + day);
+
+
+
         long startTime3 = System.currentTimeMillis();
         int data = timeService.searchMoviesByYMD(year, month, day);
         modelTimes.add(System.currentTimeMillis() - startTime3);
@@ -113,9 +133,16 @@ public class TimeController {
                 "FROM Movie m " +
                 "JOIN Time t ON m.release_time_id = t.release_time_id " +
                 "WHERE t.season = "+season+"AND t.year = "+year+";");
+
+        //hive
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT COUNT(*) " +
+                "FROM Movie m " +
+                "JOIN Time t ON m.release_time_id = t.release_time_id " +
+                "WHERE t.season = " + season + " AND t.year = " + year);
+
+
         long startTime3 = System.currentTimeMillis();
         int data = timeService.searchMoviesByYS(year, season);
         modelTimes.add(System.currentTimeMillis() - startTime3);

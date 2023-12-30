@@ -54,7 +54,12 @@ public class MovieController {
         //hive待写
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT p.* " +
+                "FROM Product p " +
+                "JOIN MovieProduct mp ON p.product_id = mp.product_id " +
+                "JOIN Movie m ON mp.movie_id = m.movie_id " +
+                "WHERE m.movie_name LIKE '" + movieName + "'");
+
 
         long startTime3 = System.currentTimeMillis();
         List<com.ssw331.warehousebackend.Neo4jDTO.Product> data = neo4jService.searchMoviesByName(movieName);

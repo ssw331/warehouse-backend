@@ -37,16 +37,22 @@ public class ComposeController {
         long startTime1 = System.currentTimeMillis();
         int count = movieService.countMoviesByYearAndType(year, type);
         modelTimes.add(System.currentTimeMillis() - startTime1);
-        modelLogs.add("MATCH (m:Movie)-[:RELEASED_IN]->(t:Time) " +
-                "WHERE t.year = $year AND m.Type CONTAINS $type " +
-                "RETURN COUNT(m)");
+        modelLogs.add("SELECT COUNT(*) " +
+                "FROM Movie m " +
+                "JOIN ReleasedIn r ON m.movie_id = r.movie_id " +
+                "JOIN Time t ON r.time_id = t.time_id " +
+                "WHERE t.year = " + year + " AND m.Type LIKE CONCAT('%', '" + type + "', '%');");
 
 
 
         //hive待写
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT COUNT(*) " +
+                "FROM Movie m " +
+                "JOIN ReleasedIn r ON m.movie_id = r.movie_id " +
+                "JOIN Time t ON r.time_id = t.time_id " +
+                "WHERE t.year = " + year + " AND m.Type LIKE CONCAT('%', '" + type + "', '%')");
 
         long startTime3 = System.currentTimeMillis();
         int data = neo4jService.searchMoviesByYearType(year, type);
@@ -65,13 +71,16 @@ public class ComposeController {
         modelLogs.add("SELECT COUNT(*) " +
                 "FROM Movie m " +
                 "JOIN Time t ON m.release_time_id = t.release_time_id " +
-                "WHERE t.year = :year AND m.Type LIKE CONCAT('%', :type, '%')");
+                "WHERE t.year = " + year + " AND m.Type LIKE CONCAT('%', '" + director_name + "', '%')");
 
 
         //hive待写
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT COUNT(*) " +
+                "FROM Movie m " +
+                "JOIN Time t ON m.release_time_id = t.release_time_id " +
+                "WHERE t.year = " + year + " AND m.Type LIKE CONCAT('%', '" + director_name + "', '%')");
 
         long startTime3 = System.currentTimeMillis();
         int data = neo4jService.searchMoviesByYearDirector(year, director_name);

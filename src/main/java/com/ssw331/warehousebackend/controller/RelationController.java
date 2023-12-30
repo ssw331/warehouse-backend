@@ -53,12 +53,22 @@ public class RelationController {
         //hive待写
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT d.*, a.* " +
+                "FROM Director d " +
+                "JOIN StaticDirectorActor sda ON d.director_id = sda.director_id " +
+                "JOIN Actor a ON sda.actor_id = a.actor_id " +
+                "ORDER BY sda.collaboration_number DESC " +
+                "LIMIT 20");
+
 
         long startTime3 = System.currentTimeMillis();
         List<com.ssw331.warehousebackend.Neo4jDTO.Collaboration_DA> data = neo4jService.searchCollaborationInDA();
         modelTimes.add(System.currentTimeMillis() - startTime3);
-        modelLogs.add("aaaaaaaaa");
+        modelLogs.add("MATCH (d:Director)-[:COLLABORATED_WITH]->(a:Actor) " +
+                "WITH d, a, size(()-[:COLLABORATED_WITH]->(d)-[:COLLABORATED_WITH]->(a)) AS collaboration_number " +
+                "ORDER BY collaboration_number DESC " +
+                "LIMIT 20 " +
+                "RETURN d, a");
         return ResultResponse.success(data, modelTimes, modelLogs);
 
     }
@@ -82,12 +92,19 @@ public class RelationController {
         //hive待写
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT a.* " +
+                "FROM Actor a " +
+                "JOIN StaticActorActor saa ON a.actor_id = saa.actor_id " +
+                "ORDER BY saa.collaboration_number DESC " +
+                "LIMIT 20");
 
         long startTime3 = System.currentTimeMillis();
         List<com.ssw331.warehousebackend.Neo4jDTO.Collaboration_AA> data = neo4jService.searchCollaborationInAA();
         modelTimes.add(System.currentTimeMillis() - startTime3);
-        modelLogs.add("aaaaaaaaa");
+        modelLogs.add("MATCH (a:Actor)-[:COLLABORATED_WITH]->(saa:StaticActorActor) " +
+                "RETURN a " +
+                "ORDER BY saa.collaboration_number DESC " +
+                "LIMIT 20");
         return ResultResponse.success(data, modelTimes, modelLogs);
 
     }
@@ -110,12 +127,20 @@ public class RelationController {
         //hive待写
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT p.* " +
+                "FROM Product p " +
+                "JOIN StaticDirectorDirector sdd ON p.product_id = sdd.product_id " +
+                "ORDER BY sdd.collaboration_number DESC " +
+                "LIMIT 20");
+
 
         long startTime3 = System.currentTimeMillis();
         List<com.ssw331.warehousebackend.Neo4jDTO.Collaboration_AA> data = neo4jService.searchCollaborationInAA();
         modelTimes.add(System.currentTimeMillis() - startTime3);
-        modelLogs.add("aaaaaaaaa");
+        modelLogs.add("MATCH (p:Product)-[:COLLABORATED_WITH]->(sdd:StaticDirectorDirector) " +
+                "RETURN p " +
+                "ORDER BY sdd.collaboration_number DESC " +
+                "LIMIT 20");
         return ResultResponse.success(data, modelTimes, modelLogs);
 
     }
@@ -154,7 +179,29 @@ public class RelationController {
         //hive待写
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT  " +
+                "    SAA.actor_name1,  " +
+                "    SAA.actor_name2,  " +
+                "    SUM(P.comment_number) AS TotalComments " +
+                "FROM " +
+                "    StaticActorActor SAA " +
+                "JOIN  " +
+                "    MovieActor MA1 ON SAA.actor_name1 = MA1.actor_name " +
+                "JOIN  " +
+                "    Movie M ON MA1.movie_id = M.movie_id " +
+                "JOIN  " +
+                "    MovieProduct MP ON M.movie_id = MP.movie_id " +
+                "JOIN  " +
+                "    Product P ON MP.product_id = P.product_id " +
+                "WHERE " +
+                "    M.Type like '" + type + "' " +
+                "GROUP BY " +
+                "    SAA.actor_name1, " +
+                "    SAA.actor_name2 " +
+                "ORDER BY " +
+                "    TotalComments DESC " +
+                "LIMIT 50");
+
 
         long startTime3 = System.currentTimeMillis();
         List<ReviewMax_AA> data = neo4jService.searchByReviewAA(type);
