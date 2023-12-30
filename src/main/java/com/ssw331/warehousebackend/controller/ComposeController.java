@@ -52,7 +52,7 @@ public class ComposeController {
         int data = neo4jService.searchMoviesByYearType(year, type);
         modelTimes.add(System.currentTimeMillis() - startTime3);
         modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE m.movie_name contains  RETURN p;");
-        return ResultResponse.success(count, modelTimes, modelLogs);
+        return ResultResponse.success(data, modelTimes, modelLogs);
     }
 
     @GetMapping("/year-director")
@@ -74,7 +74,7 @@ public class ComposeController {
         modelLogs.add("");
 
         long startTime3 = System.currentTimeMillis();
-        int data = neo4jService.searchMoviesByYearType(year, director_name);
+        int data = neo4jService.searchMoviesByYearDirector(year, director_name);
         modelTimes.add(System.currentTimeMillis() - startTime3);
         modelLogs.add("MATCH (m:Movie)<-[r:DIRECTED]-(d:Director) WHERE m.release_time contains $year and d.director_name = $directorName return count(m);");
         return ResultResponse.success(data, modelTimes, modelLogs);
