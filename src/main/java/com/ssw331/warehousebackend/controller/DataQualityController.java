@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -30,11 +31,9 @@ public class DataQualityController {
     @Operation(summary = "数据预处理阶段空值统计")
     @RequestMapping(value = "", method = RequestMethod.GET)
     public Result<Object> actorByDirector() {
-        List<Long> modelTimes = new ArrayList<>();
-        List<String> modelLogs = new ArrayList<>();
         Map<String,Object> data=dataQualityService.getDataStatistics();
-        modelTimes.add(0L);
-        modelLogs.add("");
+        List<Long> modelTimes = Arrays.asList(0L, 0L, 0L);
+        List<String> modelLogs = Arrays.asList("无", "无", "无");
         return ResultResponse.success(data, modelTimes, modelLogs);
     }
 }
