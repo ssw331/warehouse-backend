@@ -51,7 +51,12 @@ public class ReviewController {
         //hive待写
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT m.* " +
+                "FROM Movie m " +
+                "JOIN MovieProduct mp ON m.movie_id = mp.movie_id " +
+                "JOIN Product p ON mp.product_id = p.product_id " +
+                "WHERE p.grade > 4.9 AND p.comment_number > 990");
+
 
         long startTime3 = System.currentTimeMillis();
 //        List<String> data = neo4jService.searchMoviesByReviewPositive();

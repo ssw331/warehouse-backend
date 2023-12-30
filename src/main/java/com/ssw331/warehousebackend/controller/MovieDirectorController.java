@@ -50,7 +50,11 @@ public class MovieDirectorController {
         //hive待写
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT m.movie_name " +
+                "FROM MovieDirector md " +
+                "JOIN Movie m ON md.movie_id = m.movie_id " +
+                "WHERE md.director_name = '" + directorName + "'");
+
 
         long startTime3 = System.currentTimeMillis();
         List<String> data = neo4jService.searchMoviesByDirector(directorName);

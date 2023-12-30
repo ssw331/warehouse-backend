@@ -48,7 +48,10 @@ public class CategoryController {
         //hive待写
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT m.movie_name " +
+                "FROM Movie m " +
+                "WHERE m.Type LIKE CONCAT('%', '${hiveconf:type}', '%')");
+
 
         long startTime3 = System.currentTimeMillis();
         List<String> data = neo4jService.searchMoviesByCategory(type);

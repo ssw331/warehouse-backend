@@ -46,9 +46,14 @@ public class DirectorActorController {
         modelLogs.add("SELECT sda.actor_name2 " +
                 "FROM StaticDirectorActor sda " +
                 "WHERE sda.actor_name1 = "+directorName+";");
+
+        //hive
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT sda.actor_name2 " +
+                "FROM StaticDirectorActor sda " +
+                "WHERE sda.actor_name1 = '" + directorName + "'");
+
         long startTime3 = System.currentTimeMillis();
         List<String> data = neo4jService.searchActorByDirector(directorName);
         modelTimes.add(System.currentTimeMillis() - startTime3);
@@ -67,9 +72,16 @@ public class DirectorActorController {
         modelLogs.add("SELECT sdd.director_name2"+
                 "FROM StaticDirectorDirector sdd"+
                 "WHERE sdd.director_name1 = "+directorName+";");
+
+        //hive
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT sdd.director_name2 " +
+                "FROM StaticDirectorDirector sdd " +
+                "WHERE sdd.director_name1 = '" + directorName + "'");
+
+
+
         long startTime3 = System.currentTimeMillis();
         List<String> data = neo4jService.searchDirectorByDirector(directorName);
         modelTimes.add(System.currentTimeMillis() - startTime3);
@@ -88,9 +100,15 @@ public class DirectorActorController {
         modelLogs.add("SELECT saa.actor_name2 " +
                 "FROM StaticActorActor saa " +
                 "WHERE saa.actor_name1 = "+actorName+";");
+
+        //hive
         long startTime2 = System.currentTimeMillis();
         modelTimes.add(0L);
-        modelLogs.add("");
+        modelLogs.add("SELECT saa.actor_name2 " +
+                "FROM StaticActorActor saa " +
+                "WHERE saa.actor_name1 = '" + actorName + "'");
+
+
         long startTime3 = System.currentTimeMillis();
         List<String> data = neo4jService.searchActorByActor(actorName);
         modelTimes.add(System.currentTimeMillis() - startTime3);

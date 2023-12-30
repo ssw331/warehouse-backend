@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Tag(name = "溯源查询")
 @RestController
@@ -30,19 +27,22 @@ public class DataTraceController {
     @Operation(summary = "数据预处理阶段非电影数据")
     @RequestMapping(value = "/non-movie", method = RequestMethod.GET)
     public Result<Object> NullStatistic() {
-        List<Long> modelTimes = new ArrayList<>();
-        List<String> modelLogs = new ArrayList<>();
-        int data=dataTraceService.getNonMovieCounts();
-        modelTimes.add(0L);
-        modelLogs.add("");
-        return ResultResponse.success(data, modelTimes, modelLogs);
+        int data = dataTraceService.getNonMovieCounts();
+
+        Map<String, Integer> dataMap = new HashMap<>();
+        dataMap.put("nonMovieDataCount", data);
+
+        List<Long> modelTimes = Arrays.asList(0L, 0L, 0L);
+        List<String> modelLogs = Arrays.asList("无", "无", "无");
+
+        return ResultResponse.success(dataMap, modelTimes, modelLogs);
     }
+
 
     @Operation(summary = "哈利波特相关统计统计")
     @RequestMapping(value = "/harry-potter", method = RequestMethod.GET)
     public Result<Object> HarryPotterStatistic() {
-        List<Long> modelTimes = new ArrayList<>();
-        List<String> modelLogs = new ArrayList<>();
+
         Map<String, Integer> data = new HashMap<>();
 
         data.put("harryPotterMovieCount", dataTraceService.getNumberOfHarryMovies());
@@ -50,8 +50,8 @@ public class DataTraceController {
         data.put("mergedWebPageCount", data.get("formatCount"));
         data.put("webPageCountForFirstEpisode", dataTraceService.getNumberOfMergedWebpages());
 
-        modelTimes.add(0L);
-        modelLogs.add("");
+        List<Long> modelTimes = Arrays.asList(0L, 0L, 0L);
+        List<String> modelLogs = Arrays.asList("无", "无", "无");
         return ResultResponse.success(data, modelTimes, modelLogs);
     }
 }

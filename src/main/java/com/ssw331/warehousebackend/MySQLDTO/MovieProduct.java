@@ -10,7 +10,6 @@ import lombok.Data;
 public class MovieProduct {
     @TableId("movie_id")
     private int movieId;
-
     @TableField("product_id")
     private String productId;
 }

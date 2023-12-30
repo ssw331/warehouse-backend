@@ -12,22 +12,16 @@ public class Movie {
     @TableId("movie_id")
     @Getter
     private int movieId;
-
     @TableField("Type")
     @Getter
     private String Type;
-
     @TableField("movie_name")
     @Getter
     private String movieName;
-
     @TableField("release_time_id")
     @Getter
     private int releaseTimeId;
-
     @TableField("time")
     @Getter
     private String time;
-
-
 }

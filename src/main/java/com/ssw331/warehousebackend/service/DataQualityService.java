@@ -5,5 +5,4 @@ import java.util.Map;
 @Service
 public interface DataQualityService {
     Map<String, Object> getDataStatistics();
-
 }

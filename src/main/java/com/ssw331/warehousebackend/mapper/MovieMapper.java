@@ -17,10 +17,8 @@ public interface MovieMapper extends BaseMapper<Movie> {
     List<Movie> findMoviesWithHighGradeProducts();
     @Select("SELECT movie_name FROM Movie WHERE Type LIKE CONCAT('%', #{type}, '%')")
     List<String> findMoviesByType(String type);
-
     @Select("SELECT COUNT(*) FROM Movie m JOIN Time t ON m.release_time_id = t.release_time_id " +
             "WHERE t.year = #{year} AND m.Type LIKE CONCAT('%', #{type}, '%')")
     int countMoviesByYearAndType(@Param("year") int year, @Param("type") String type);
-
 }
 

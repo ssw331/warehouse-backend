@@ -10,16 +10,12 @@ import lombok.Data;
 public class Product {
     @TableId("product_id")
     private String productId;
-
     @TableField("comment_number")
     private int commentNumber;
-
     @TableField("cost")
     private String cost;
-
     @TableField("format")
     private String format;
-
     @TableField("grade")
     private String grade;
 }
