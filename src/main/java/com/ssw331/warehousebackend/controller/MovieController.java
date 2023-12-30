@@ -3,11 +3,14 @@ package com.ssw331.warehousebackend.controller;
 import com.ssw331.warehousebackend.MySQLDTO.*;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.Result;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
+import com.ssw331.warehousebackend.service.Impl.Neo4jServiceImpl;
+import com.ssw331.warehousebackend.service.*;
 
 import com.ssw331.warehousebackend.service.Neo4jService;
 import com.ssw331.warehousebackend.service.ProductByNameService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -22,6 +25,8 @@ public class MovieController {
     private ProductByNameService productByNameService;
     @Autowired
     private  Neo4jService neo4jService;
+    @Autowired
+    private MovieService movieService;
 
     @Autowired
     private void setNeo4jService(Neo4jService neo4jService){
@@ -57,4 +62,22 @@ public class MovieController {
         modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE m.movie_name contains "+movieName+" RETURN p;");
         return ResultResponse.success(data, modelTimes, modelLogs);
     }
+
+    @GetMapping("/highGradeProducts")
+    public ResponseEntity<List<Movie>> getMoviesWithHighGradeProducts() {
+        List<Movie> movies = movieService.getMoviesWithHighGradeProducts();
+        return ResponseEntity.ok(movies);
+    }
+
+    @GetMapping("/byType")
+    public ResponseEntity<List<String>> getMoviesByType(@RequestParam String type) {
+        List<String> movieNames = movieService.getMoviesByType(type);
+        return ResponseEntity.ok(movieNames);
+    }
+    @GetMapping("/countByYearAndType")
+    public ResponseEntity<Integer> countMoviesByYearAndType(@RequestParam int year, @RequestParam String type) {
+        int count = movieService.countMoviesByYearAndType(year, type);
+        return ResponseEntity.ok(count);
+    }
+
 }
