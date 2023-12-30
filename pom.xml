@@ -79,38 +79,52 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- 添加hive依赖 -->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.hive</groupId>-->
-<!--            <artifactId>hive-jdbc</artifactId>-->
-<!--            <version>3.1.3</version>-->
-<!--            <exclusions>-->
+<!--         添加hive依赖-->
+        <dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-jdbc</artifactId>
+            <version>3.1.3</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.hive</groupId>
+                    <artifactId>hive-shims</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish</groupId>
+                    <artifactId>javax-el</artifactId>
+                </exclusion>
+                <exclusion>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-slf4j-impl</artifactId>
+                </exclusion>
 <!--                <exclusion>-->
-<!--                    <groupId>org.eclipse.jetty</groupId>-->
-<!--                    <artifactId>*</artifactId>-->
+<!--                    <groupId>jdk.tools</groupId>-->
+<!--                    <artifactId>jdk.tools</artifactId>-->
 <!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.apache.hive</groupId>-->
-<!--                    <artifactId>hive-shims</artifactId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.glassfish</groupId>-->
-<!--                    <artifactId>javax-el</artifactId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                <groupId>org.slf4j</groupId>-->
-<!--                <artifactId>slf4j-log4j12</artifactId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.apache.logging.log4j</groupId>-->
-<!--                    <artifactId>log4j-slf4j-impl</artifactId>-->
-<!--                </exclusion>-->
-<!--&lt;!&ndash;                <exclusion>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <groupId>jdk.tools</groupId>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <artifactId>jdk.tools</artifactId>&ndash;&gt;-->
-<!--&lt;!&ndash;                </exclusion>&ndash;&gt;-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
+            </exclusions>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.12</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_2.12</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
