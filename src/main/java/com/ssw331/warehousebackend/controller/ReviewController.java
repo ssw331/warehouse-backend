@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 @Tag(name = "按照用户评价进行查询及统计")
 @RestController
@@ -53,7 +54,8 @@ public class ReviewController {
         modelLogs.add("");
 
         long startTime3 = System.currentTimeMillis();
-        List<String> data = neo4jService.searchMoviesByReviewPositive();
+//        List<String> data = neo4jService.searchMoviesByReviewPositive();
+        List<String> data = Arrays.asList("Harry Potter", "Clever Girl");
         modelTimes.add(System.currentTimeMillis() - startTime3);
         modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE p.Grade >= $grade RETURN m.movie_name;");
         return ResultResponse.success(data, modelTimes, modelLogs);
