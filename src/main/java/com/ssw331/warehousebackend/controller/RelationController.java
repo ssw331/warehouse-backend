@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Relation")
+@RequestMapping("/relation")
 public class RelationController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class RelationController {
 
 
 
-    @GetMapping("/topDirectorActorCollaborations")
+    @GetMapping("/director-actor")
     public Result<Object> getTop20DirectorActorCollaborations() {
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
@@ -61,7 +61,7 @@ public class RelationController {
 
 
 
-    @GetMapping("/topActorActorCollaborations")
+    @GetMapping("/actor-actor")
     public Result<Object> getTop20ActorActorCollaborations() {
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
@@ -88,7 +88,7 @@ public class RelationController {
     }
 
 
-    @GetMapping("/topDirectorDirectorCollaborations")
+    @GetMapping("/director-director")
     public Result<Object> getTop20DirectorDirectorCollaborations() {
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();

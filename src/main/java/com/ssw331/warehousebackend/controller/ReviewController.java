@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Tag(name = "按照电影名称查询")
+@Tag(name = "按照用户评价进行查询及统计")
 @RestController
-@RequestMapping("/movie")
-public class MovieController {
+@RequestMapping("/review")
+public class ReviewController {
 
-    @Autowired
-    private ProductByNameService productByNameService;
     @Autowired
     private  Neo4jService neo4jService;
     @Autowired
@@ -32,24 +30,22 @@ public class MovieController {
     private void setNeo4jService(Neo4jService neo4jService){
         this.neo4jService=neo4jService;
     }
-    @Autowired
-    private void setProductByNameService(ProductByNameService productByNameService) {
-        this.productByNameService=productByNameService;
-    }
 
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public Result<Object> timeYear(@RequestParam String movieName) {
+
+    @GetMapping("/positive")
+    public Result<Object> getMoviesWithHighGradeProducts() {
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
         long startTime1 = System.currentTimeMillis();
-        List<Product> dataFromMySQL= productByNameService.getProductsByMovieName(movieName);
+        List<Movie> movies = movieService.getMoviesWithHighGradeProducts();
         modelTimes.add(System.currentTimeMillis() - startTime1);
-        modelLogs.add("SELECT p.* " +
-                "FROM Product p " +
-                "JOIN MovieProduct mp ON p.product_id = mp.product_id " +
-                "JOIN Movie m ON mp.movie_id = m.movie_id " +
-                "WHERE m.movie_name LIKE "+movieName+";");
+        modelLogs.add("SELECT m.* " +
+                "FROM Movie m " +
+                "JOIN MovieProduct mp ON m.movie_id = mp.movie_id " +
+                "JOIN Product p ON mp.product_id = p.product_id " +
+                "WHERE p.grade > 4.9 AND p.comment_number > 990");
+
 
         //hive待写
         long startTime2 = System.currentTimeMillis();
@@ -57,36 +53,11 @@ public class MovieController {
         modelLogs.add("");
 
         long startTime3 = System.currentTimeMillis();
-        List<com.ssw331.warehousebackend.Neo4jDTO.Product> data = neo4jService.searchMoviesByName(movieName);
+        List<String> data = neo4jService.searchMoviesByReviewPositive();
         modelTimes.add(System.currentTimeMillis() - startTime3);
-        modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE m.movie_name contains "+movieName+" RETURN p;");
+        modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE p.Grade >= $grade RETURN m.movie_name;");
         return ResultResponse.success(data, modelTimes, modelLogs);
     }
-
-//    @GetMapping("/highGradeProducts")
-//    public Result<Object> getMoviesWithHighGradeProducts() {
-//        List<Long> modelTimes = new ArrayList<>();
-//        List<String> modelLogs = new ArrayList<>();
-//        long startTime1 = System.currentTimeMillis();
-//        List<Movie> movies = movieService.getMoviesWithHighGradeProducts();
-//        modelTimes.add(System.currentTimeMillis() - startTime1);
-//        modelLogs.add("SELECT p.* " +
-//                "FROM Product p " +
-//                "JOIN MovieProduct mp ON p.product_id = mp.product_id " +
-//                "JOIN Movie m ON mp.movie_id = m.movie_id " +
-//                "WHERE m.movie_name LIKE ;");
-//
-//        //hive待写
-//        long startTime2 = System.currentTimeMillis();
-//        modelTimes.add(0L);
-//        modelLogs.add("");
-//
-//        long startTime3 = System.currentTimeMillis();
-//        List<String> data = neo4jService.searchMoviesByReviewPositive();
-//        modelTimes.add(System.currentTimeMillis() - startTime3);
-//        modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE m.movie_name contains  RETURN p;");
-//        return ResultResponse.success(data, modelTimes, modelLogs);
-//    }
 
 //    @GetMapping("/byType")
 //    public Result<Object> getMoviesByType(@RequestParam String type){
