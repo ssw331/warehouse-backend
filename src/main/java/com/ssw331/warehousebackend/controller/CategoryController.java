@@ -45,9 +45,8 @@ public class CategoryController {
                 "WHERE m.Type LIKE CONCAT('%', :type, '%')");
 
 
-        //hive待写
         long startTime2 = System.currentTimeMillis();
-        modelTimes.add(0L);
+        modelTimes.add(System.currentTimeMillis() - startTime2);
         modelLogs.add("");
 
         long startTime3 = System.currentTimeMillis();

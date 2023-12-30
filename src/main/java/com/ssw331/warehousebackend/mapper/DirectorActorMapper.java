@@ -9,8 +9,6 @@ import java.util.List;
 
 @Mapper
 public interface DirectorActorMapper extends BaseMapper<StaticDirectorActor> {
-
     @Select("SELECT * FROM StaticDirectorActor ORDER BY collaboration_number DESC LIMIT 20")
     List<StaticDirectorActor> findTop20DirectorActorCollaborations();
-
 }

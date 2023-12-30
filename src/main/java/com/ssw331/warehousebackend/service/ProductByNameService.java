@@ -8,6 +8,4 @@ import java.util.List;
 @Service
 public interface ProductByNameService {
     List<Product> getProductsByMovieName(String movieName);
-
-
 }

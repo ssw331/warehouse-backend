@@ -10,10 +10,8 @@ import lombok.Data;
 public class StaticDirectorDirector {
     @TableField("director_name1")
     private String directorName1;
-
     @TableField("director_name2")
     private String directorName2;
-
     @TableField("collaboration_number")
     private int collaborationNumber;
 }

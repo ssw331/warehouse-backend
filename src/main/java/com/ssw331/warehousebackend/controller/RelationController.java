@@ -3,6 +3,7 @@
 package com.ssw331.warehousebackend.controller;
 
 import com.ssw331.warehousebackend.MySQLDTO.*;
+import com.ssw331.warehousebackend.Neo4jDTO.ReviewMax_AA;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.Result;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
 import com.ssw331.warehousebackend.service.Neo4jService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/relation")
@@ -119,6 +121,47 @@ public class RelationController {
     }
 
 
+    @GetMapping("/hot-actor-actor")
+    public Result<Object> getTopActorActorByTypes(@RequestParam String type) {
+        List<Long> modelTimes = new ArrayList<>();
+        List<String> modelLogs = new ArrayList<>();
+        long startTime1 = System.currentTimeMillis();
+        List<Map<String, Object>> directorDirectors=relationService.getMostCommentedActorPairByMovieType(type);
+        modelTimes.add(System.currentTimeMillis() - startTime1);
+        modelLogs.add("SELECT  " +
+                "    SAA.actor_name1,  " +
+                "    SAA.actor_name2,  " +
+                "    SUM(P.comment_number) AS TotalComments " +
+                "FROM " +
+                "    StaticActorActor SAA " +
+                "JOIN  " +
+                "    MovieActor MA1 ON SAA.actor_name1 = MA1.actor_name " +
+                "JOIN  " +
+                "    Movie M ON MA1.movie_id = M.movie_id " +
+                "JOIN  " +
+                "    MovieProduct MP ON M.movie_id = MP.movie_id " +
+                "JOIN  " +
+                "    Product P ON MP.product_id = P.product_id " +
+                "WHERE " +
+                "    M.Type like "+type+
+                "GROUP BY " +
+                "    SAA.actor_name1, " +
+                "    SAA.actor_name2 " +
+                "ORDER BY " +
+                "    TotalComments DESC" +
+                "LIMIT 50; ");
 
+        //hive待写
+        long startTime2 = System.currentTimeMillis();
+        modelTimes.add(0L);
+        modelLogs.add("");
+
+        long startTime3 = System.currentTimeMillis();
+        List<ReviewMax_AA> data = neo4jService.searchByReviewAA(type);
+        modelTimes.add(System.currentTimeMillis() - startTime3);
+        modelLogs.add("MATCH (m:Movie)-[:INCLUDE]->(p:Product) WHERE m.Type contains "+type+" With m.movie_id as mid, sum(p.Comments) AS sumC ORDER BY sum(p.Comments) DESC MATCH (a1:Actor)-[:ACTED_IN]->(n:Movie)<-[:ACTED_IN]-(a2:Actor) WHERE n.movie_id=mid RETURN a1.actor_name as actor1, a2.actor_name as actor2 LIMIT 50;");
+        return ResultResponse.success(data, modelTimes, modelLogs);
+
+    }
 
 }

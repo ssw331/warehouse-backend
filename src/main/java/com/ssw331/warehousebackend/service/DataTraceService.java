@@ -8,6 +8,4 @@ public interface DataTraceService {
     int getNumberOfHarryMovies();
     int getNumberOfHarryVersions();
     int getNumberOfMergedWebpages();
-
-
 }
