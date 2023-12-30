@@ -23,6 +23,7 @@ public class TimeController {
     TimeService timeService;
     MySQLTimeService mySQLTimeService;
 
+    @Autowired
     HiveTimeService hiveTimeService;
 
 
