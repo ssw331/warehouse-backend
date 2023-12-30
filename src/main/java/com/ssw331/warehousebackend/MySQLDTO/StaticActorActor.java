@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @TableName("StaticActorActor")
 public class StaticActorActor {
-    @TableId("actor_name1")
+    @TableField("actor_name1")
     private String actorName1;
 
     @TableField("actor_name2")

@@ -15,7 +15,8 @@ public interface ActorRepository extends Neo4jRepository<Actor, String> {
 
 
 
-    List<Actor> findActorsByActorName(String actorName);
+    @Query("MATCH (a1:Actor)-[r:COOPERATE]->(a2:Actor) WHERE a1.actor_name = $actorName RETURN a2.actor_name;")
+    List<String> findActorsByActorName(String actorName);
 
     @Query("MATCH (d:Director)-[r:COOPERATE]->(a:Actor) RETURN d.director_name AS director, a.actor_name AS actor, r.counts AS collaborationNumber ORDER BY r.counts DESC LIMIT 51;")
     List<Collaboration_DA> findCollaborationBTDA();

@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @TableName("StaticDirectorDirector")
 public class StaticDirectorDirector {
-    @TableId("director_name1")
+    @TableField("director_name1")
     private String directorName1;
 
     @TableField("director_name2")

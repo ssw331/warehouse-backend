@@ -38,30 +38,16 @@ public class DirectorActorServiceImpl implements DirectorActorService {
 
         @Override
         public List<String> getDirectorNamesByDirectorName(String directorName) {
-            QueryWrapper<StaticDirectorDirector> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("director_name", directorName);
-            List<StaticDirectorDirector> staticDirectorDirectors = staticDirectorDirectorMapper.selectList(queryWrapper);
-
-            List<String> directorNames = new ArrayList<>();
-            for (StaticDirectorDirector staticDirectorDirector : staticDirectorDirectors) {
-                directorNames.add(staticDirectorDirector.getDirectorName2());
-            }
-            return directorNames;
+            return staticDirectorDirectorMapper.selectDirectorNamesByDirectorName(directorName);
         }
 
         @Override
         public List<String> getActorNamesByActorName(String actorName) {
-            QueryWrapper<StaticActorActor> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("actor_name1", actorName);
-            List<StaticActorActor> staticActorActors = staticActorActorMapper.selectList(queryWrapper);
-            List<String> actorNames = new ArrayList<>();
-            for (StaticActorActor staticActorActor : staticActorActors) {
-                actorNames.add(staticActorActor.getActorName2());
-            }
-            return actorNames;
+            return staticActorActorMapper.selectActorNamesByActorName(actorName);
         }
 
-        @Override
+
+    @Override
         public List<String> getDirectorNamesByActorName(String actorName) {
             QueryWrapper<StaticDirectorActor> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("actor_name", actorName);

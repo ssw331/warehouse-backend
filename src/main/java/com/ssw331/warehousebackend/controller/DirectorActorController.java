@@ -62,7 +62,7 @@ public class DirectorActorController {
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
         long startTime1 = System.currentTimeMillis();
-        List<String> dataFromMySQL=directorActorService.getActorNamesByDirectorName(directorName);
+        List<String> dataFromMySQL=directorActorService.getDirectorNamesByDirectorName(directorName);
         modelTimes.add(System.currentTimeMillis() - startTime1);
         modelLogs.add("SELECT sdd.director_name2"+
                 "FROM StaticDirectorDirector sdd"+
@@ -73,7 +73,7 @@ public class DirectorActorController {
         long startTime3 = System.currentTimeMillis();
         List<String> data = neo4jService.searchDirectorByDirector(directorName);
         modelTimes.add(System.currentTimeMillis() - startTime3);
-        modelLogs.add("MATCH (a:Director)-[:DIRECTED]->(m)<-[:DIRECTED]-(d:Director) WHERE d.director_name = "+directorName+" RETURN a.director_name;");
+        modelLogs.add("MATCH (d1:Director)-[:COOPERATE]->(d2:Director) WHERE d1.director_name = "+directorName+" RETURN d2.director_name;");
         return ResultResponse.success(data, modelTimes, modelLogs);
     }
 
@@ -94,7 +94,7 @@ public class DirectorActorController {
         long startTime3 = System.currentTimeMillis();
         List<String> data = neo4jService.searchActorByActor(actorName);
         modelTimes.add(System.currentTimeMillis() - startTime3);
-        modelLogs.add("MATCH (a:Actor)-[:ACTED_IN]->(m)<-[:ACTED_IN]-(d:Actor) WHERE d.actor_name = "+actorName+" RETURN a.actor_name;");
+        modelLogs.add("MATCH (a1:Actor)-[r:COOPERATE]->(a2:Actor) WHERE a1.actor_name = "+actorName+" RETURN a2.actor_name;");
         return ResultResponse.success(data, modelTimes, modelLogs);
     }
 

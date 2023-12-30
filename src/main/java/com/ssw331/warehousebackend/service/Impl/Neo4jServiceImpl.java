@@ -93,9 +93,7 @@ public class Neo4jServiceImpl implements Neo4jService {
      */
     @Override
     public List<String> searchActorByActor(String actorName) {
-        List<String> actorNames = new ArrayList<>();
-        actorRepository.findActorsByActorName(actorName).forEach((e) -> actorNames.add(e.getActorName()));
-        return actorNames;
+        return actorRepository.findActorsByActorName(actorName);
     }
 
     /**

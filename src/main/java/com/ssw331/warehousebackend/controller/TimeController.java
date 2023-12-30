@@ -84,14 +84,15 @@ public class TimeController {
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
         long startTime1 = System.currentTimeMillis();
-        modelTimes.add(System.currentTimeMillis() - startTime1);
+
         int dataFromMySQL = mySQLTimeService.getMovieCountByYearAndMonthAndDay(year, month,day);
+        modelTimes.add(System.currentTimeMillis() - startTime1);
         modelLogs.add("SELECT COUNT(m.movie_id) " +
                 "FROM Movie m " +
                 "JOIN Time t ON m.release_time_id = t.release_time_id " +
                 "WHERE t.year = "+year+"AND t.month = "+month+"AND t.day= "+day+" ;");
         long startTime2 = System.currentTimeMillis();
-        modelTimes.add(System.currentTimeMillis() - startTime1);
+        modelTimes.add(0L);
         modelLogs.add("");
         long startTime3 = System.currentTimeMillis();
         int data = timeService.searchMoviesByYMD(year, month, day);
@@ -117,8 +118,6 @@ public class TimeController {
         modelLogs.add("");
         long startTime3 = System.currentTimeMillis();
         int data = timeService.searchMoviesByYS(year, season);
-        modelTimes.add(0L);
-        modelLogs.add("");
         modelTimes.add(System.currentTimeMillis() - startTime3);
         modelLogs.add("MATCH (m:Movie) WHERE m.release_time contains '" + year + "/" + "1-3 or 4-6 or 7-9 or 10-12" + "' RETURN count(m);");
         return ResultResponse.success(data, modelTimes, modelLogs);
