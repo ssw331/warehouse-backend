@@ -12,7 +12,7 @@ public class SparkConfig {
         return SparkSession
                 .builder()
                 .appName("Spark Application")
-                .master("local") // Use "local" for running on a local machine. In production, use the appropriate master URL
+                .master("cc3.accr.cc:10000")
                 .getOrCreate();
     }
 }
