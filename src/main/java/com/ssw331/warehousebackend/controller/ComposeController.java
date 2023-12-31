@@ -40,9 +40,9 @@ public class ComposeController {
         long startTime1 = System.currentTimeMillis();
         int count = movieService.countMoviesByYearAndType(year, type);
         modelTimes.add(System.currentTimeMillis() - startTime1);
-        modelLogs.add("MATCH (m:Movie)-[:RELEASED_IN]->(t:Time) " +
-                "WHERE t.year = $year AND m.Type CONTAINS $type " +
-                "RETURN COUNT(m)");
+        modelLogs.add("SELECT COUNT(*) " +
+                "FROM movies " +
+                "WHERE year = "+year+" AND type = "+type+"; ");
 
 
 
@@ -50,14 +50,14 @@ public class ComposeController {
         long startTime2 = System.currentTimeMillis();
         count = hiveMovieService.countMoviesByYearAndType(year, type);
         modelTimes.add(System.currentTimeMillis() - startTime2);
-        modelLogs.add("MATCH (m:Movie)-[:RELEASED_IN]->(t:Time) " +
-                "WHERE t.year = $year AND m.Type CONTAINS $type " +
-                "RETURN COUNT(m)");
+        modelLogs.add("SELECT COUNT(*) " +
+                "FROM movies " +
+                "WHERE year = "+year+" AND type = "+type+"; ");
 
         long startTime3 = System.currentTimeMillis();
         int data = neo4jService.searchMoviesByYearType(year, type);
         modelTimes.add(System.currentTimeMillis() - startTime3);
-        modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE m.movie_name contains  RETURN p;");
+        modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE m.type contains "+type+" RETURN p;");
         return ResultResponse.success(data, modelTimes, modelLogs);
     }
 
