@@ -64,14 +64,7 @@ public class ReviewController {
                 "WHERE p.grade > 4.9 AND p.comment_number > 990");
 
         long startTime3 = System.currentTimeMillis();
-        //List<String> data = neo4jService.searchMoviesByReviewPositive();
-        List<String> data = Arrays.asList("Harry Potter", "Clever Girl");
-        int sleepTime = rand.nextInt(100) + 200;
-        try {
-            Thread.sleep(sleepTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        List<String> data = neo4jService.searchMoviesByReviewPositive();
         modelTimes.add(System.currentTimeMillis() - startTime3);
         modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE p.Grade >= $grade RETURN m.movie_name;");
         return ResultResponse.success(data, modelTimes, modelLogs);
