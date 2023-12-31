@@ -1,5 +1,6 @@
 package com.ssw331.warehousebackend.mapper;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ssw331.warehousebackend.MySQLDTO.StaticActorActor;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
+@DS("mysql")
 public interface StaticActorActorMapper extends BaseMapper<StaticActorActor> {
     @Select("SELECT actor_name2 FROM StaticActorActor WHERE actor_name1 = #{actorName}")
     List<String> selectActorNamesByActorName(@Param("actorName") String actorName);

@@ -1,5 +1,6 @@
 package com.ssw331.warehousebackend.mapper;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ssw331.warehousebackend.MySQLDTO.*;
 import org.apache.ibatis.annotations.Mapper;
@@ -9,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 @Mapper
+@DS("mysql")
 public interface MovieMapper extends BaseMapper<Movie> {
     @Select("SELECT m.* FROM Movie m " +
             "JOIN MovieProduct mp ON m.movie_id = mp.movie_id " +
