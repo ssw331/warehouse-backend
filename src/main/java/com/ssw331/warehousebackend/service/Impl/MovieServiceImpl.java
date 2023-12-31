@@ -10,14 +10,14 @@ import com.ssw331.warehousebackend.mapper.MovieProductMapper;
 import com.ssw331.warehousebackend.mapper.ProductMapper;
 import com.ssw331.warehousebackend.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-@DS("hive")
+@Component
 public class MovieServiceImpl implements MovieService {
 
     @Autowired
@@ -70,5 +70,10 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public int countMoviesByYearAndType(int year, String type) {
         return movieMapper.countMoviesByYearAndType(year, type);
+    }
+
+    @Override
+    public int countMoviesByYearAndDirectorName(int year, String directorName) {
+        return movieMapper.countMoviesByYearAndDirectorName(year,directorName);
     }
 }

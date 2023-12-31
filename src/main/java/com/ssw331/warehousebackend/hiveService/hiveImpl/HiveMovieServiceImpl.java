@@ -70,4 +70,9 @@ public class HiveMovieServiceImpl implements HiveMovieService {
     public int countMoviesByYearAndType(int year, String type) {
         return movieMapper.countMoviesByYearAndType(year, type);
     }
+
+    @Override
+    public int countMoviesByYearAndDirectorName(int year, String directorName) {
+        return movieMapper.countMoviesByYearAndDirectorName(year,directorName);
+    }
 }

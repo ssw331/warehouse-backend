@@ -70,7 +70,7 @@ public class ComposeController {
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
         long startTime1 = System.currentTimeMillis();
-        int count = movieService.countMoviesByYearAndType(year, director_name);
+        int count = movieService.countMoviesByYearAndDirectorName(year,director_name);
         modelTimes.add(System.currentTimeMillis() - startTime1);
         modelLogs.add("SELECT COUNT(*) " +
                 "FROM Movie m " +
@@ -81,7 +81,7 @@ public class ComposeController {
         //hive待写
         long startTime2 = System.currentTimeMillis();
 
-        count = hiveMovieService.countMoviesByYearAndType(year, director_name);
+        count = hiveMovieService.countMoviesByYearAndDirectorName(year,director_name);
         modelTimes.add(System.currentTimeMillis() - startTime2);
         modelLogs.add("SELECT COUNT(*) " +
                 "FROM Movie m " +

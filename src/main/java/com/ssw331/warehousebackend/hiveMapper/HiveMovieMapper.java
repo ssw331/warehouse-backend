@@ -22,5 +22,11 @@ public interface HiveMovieMapper extends BaseMapper<Movie> {
     @Select("SELECT COUNT(*) FROM Movie m JOIN Time t ON m.release_time_id = t.release_time_id " +
             "WHERE t.year = #{year} AND m.Type LIKE CONCAT('%', #{type}, '%')")
     int countMoviesByYearAndType(@Param("year") int year, @Param("type") String type);
+
+    @Select("SELECT COUNT(*) FROM Movie m " +
+            "JOIN Time t ON m.release_time_id = t.release_time_id " +
+            "JOIN MovieDirector md ON m.movie_id = md.movie_id " +
+            "WHERE t.year = #{year} AND md.director_name = #{directorName}")
+    int countMoviesByYearAndDirectorName(@Param("year") int year, @Param("directorName") String directorName);
 }
 
