@@ -2,6 +2,7 @@ package com.ssw331.warehousebackend.controller;
 
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.Result;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
+import com.ssw331.warehousebackend.hiveService.HiveDirectorActorService;
 import com.ssw331.warehousebackend.service.DirectorActorService;
 import com.ssw331.warehousebackend.service.MySQLTimeService;
 import com.ssw331.warehousebackend.service.Neo4jService;
@@ -25,15 +26,18 @@ public class DirectorActorController {
     DirectorActorService directorActorService;
     @Autowired
     Neo4jService neo4jService;
+    @Autowired
+    HiveDirectorActorService hiveDirectorActorService;
 
 
     @Autowired
     private void setNeo4jService(Neo4jService neo4jService) {
-        this.neo4jService=neo4jService;
+        this.neo4jService = neo4jService;
     }
+
     @Autowired
     private void setDirectorActorService(DirectorActorService directorActorService) {
-        this.directorActorService=directorActorService;
+        this.directorActorService = directorActorService;
     }
     @Operation(summary = "输入导演名称得到与其合作的演员名称")
     @RequestMapping(value = "/actor-by-director", method = RequestMethod.GET)
@@ -49,11 +53,11 @@ public class DirectorActorController {
 
         //hive
         long startTime2 = System.currentTimeMillis();
-        modelTimes.add(0L);
+        dataFromMySQL = hiveDirectorActorService.getActorNamesByDirectorName(directorName);
+        modelTimes.add(System.currentTimeMillis() - startTime2);
         modelLogs.add("SELECT sda.actor_name2 " +
                 "FROM StaticDirectorActor sda " +
-                "WHERE sda.actor_name1 = '" + directorName + "'");
-
+                "WHERE sda.actor_name1 = " + directorName + ";");
         long startTime3 = System.currentTimeMillis();
         List<String> data = neo4jService.searchActorByDirector(directorName);
         modelTimes.add(System.currentTimeMillis() - startTime3);
@@ -72,16 +76,12 @@ public class DirectorActorController {
         modelLogs.add("SELECT sdd.director_name2"+
                 "FROM StaticDirectorDirector sdd"+
                 "WHERE sdd.director_name1 = "+directorName+";");
-
-        //hive
         long startTime2 = System.currentTimeMillis();
-        modelTimes.add(0L);
-        modelLogs.add("SELECT sdd.director_name2 " +
-                "FROM StaticDirectorDirector sdd " +
-                "WHERE sdd.director_name1 = '" + directorName + "'");
-
-
-
+        dataFromMySQL = hiveDirectorActorService.getDirectorNamesByDirectorName(directorName);
+        modelTimes.add(System.currentTimeMillis() - startTime2);
+        modelLogs.add("SELECT sdd.director_name2" +
+                "FROM StaticDirectorDirector sdd" +
+                "WHERE sdd.director_name1 = " + directorName + ";");
         long startTime3 = System.currentTimeMillis();
         List<String> data = neo4jService.searchDirectorByDirector(directorName);
         modelTimes.add(System.currentTimeMillis() - startTime3);
@@ -100,15 +100,12 @@ public class DirectorActorController {
         modelLogs.add("SELECT saa.actor_name2 " +
                 "FROM StaticActorActor saa " +
                 "WHERE saa.actor_name1 = "+actorName+";");
-
-        //hive
         long startTime2 = System.currentTimeMillis();
-        modelTimes.add(0L);
+        dataFromMySQL = directorActorService.getActorNamesByActorName(actorName);
+        modelTimes.add(System.currentTimeMillis() - startTime2);
         modelLogs.add("SELECT saa.actor_name2 " +
                 "FROM StaticActorActor saa " +
-                "WHERE saa.actor_name1 = '" + actorName + "'");
-
-
+                "WHERE saa.actor_name1 = " + actorName + ";");
         long startTime3 = System.currentTimeMillis();
         List<String> data = neo4jService.searchActorByActor(actorName);
         modelTimes.add(System.currentTimeMillis() - startTime3);
@@ -122,14 +119,17 @@ public class DirectorActorController {
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
         long startTime1 = System.currentTimeMillis();
-        List<String> dataFromMySQL=directorActorService.getDirectorNamesByActorName(actorName);
+        List<String> dataFromMySQL = directorActorService.getDirectorNamesByActorName(actorName);
         modelTimes.add(System.currentTimeMillis() - startTime1);
         modelLogs.add("SELECT sda.director_name2 " +
                 "FROM StaticDirectorActor sda " +
-                "WHERE sda.actor_name1 = "+actorName+";");
+                "WHERE sda.actor_name1 = " + actorName + ";");
         long startTime2 = System.currentTimeMillis();
-        modelTimes.add(0L);
-        modelLogs.add("");
+        dataFromMySQL = hiveDirectorActorService.getDirectorNamesByActorName(actorName);
+        modelTimes.add(System.currentTimeMillis() - startTime2);
+        modelLogs.add("SELECT sda.director_name2 " +
+                "FROM StaticDirectorActor sda " +
+                "WHERE sda.actor_name1 = " + actorName + ";");
         long startTime3 = System.currentTimeMillis();
         List<String> data = neo4jService.searchDirectorByActor(actorName);
         modelTimes.add(System.currentTimeMillis() - startTime3);

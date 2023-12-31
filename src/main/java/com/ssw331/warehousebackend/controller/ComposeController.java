@@ -3,6 +3,7 @@ package com.ssw331.warehousebackend.controller;
 import com.ssw331.warehousebackend.MySQLDTO.*;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.Result;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
+import com.ssw331.warehousebackend.hiveService.HiveMovieService;
 import com.ssw331.warehousebackend.service.Impl.Neo4jServiceImpl;
 import com.ssw331.warehousebackend.service.*;
 
@@ -25,6 +26,8 @@ public class ComposeController {
     private  Neo4jService neo4jService;
     @Autowired
     private MovieService movieService;
+    @Autowired
+    private HiveMovieService hiveMovieService;
 
     @Autowired
     private void setNeo4jService(Neo4jService neo4jService){
@@ -47,7 +50,8 @@ public class ComposeController {
 
         //hive待写
         long startTime2 = System.currentTimeMillis();
-        modelTimes.add(0L);
+        count = hiveMovieService.countMoviesByYearAndType(year, type);
+        modelTimes.add(System.currentTimeMillis() - startTime2);
         modelLogs.add("SELECT COUNT(*) " +
                 "FROM Movie m " +
                 "JOIN ReleasedIn r ON m.movie_id = r.movie_id " +
@@ -57,7 +61,7 @@ public class ComposeController {
         long startTime3 = System.currentTimeMillis();
         int data = neo4jService.searchMoviesByYearType(year, type);
         modelTimes.add(System.currentTimeMillis() - startTime3);
-        modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE m.movie_name contains  RETURN p;");
+        modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE m.type contains "+type+" RETURN p;");
         return ResultResponse.success(data, modelTimes, modelLogs);
     }
 
@@ -71,12 +75,14 @@ public class ComposeController {
         modelLogs.add("SELECT COUNT(*) " +
                 "FROM Movie m " +
                 "JOIN Time t ON m.release_time_id = t.release_time_id " +
-                "WHERE t.year = " + year + " AND m.Type LIKE CONCAT('%', '" + director_name + "', '%')");
+                "WHERE t.year = :year AND m.Type LIKE CONCAT('%', :type, '%')");
 
 
         //hive待写
         long startTime2 = System.currentTimeMillis();
-        modelTimes.add(0L);
+
+        count = hiveMovieService.countMoviesByYearAndType(year, director_name);
+        modelTimes.add(System.currentTimeMillis() - startTime2);
         modelLogs.add("SELECT COUNT(*) " +
                 "FROM Movie m " +
                 "JOIN Time t ON m.release_time_id = t.release_time_id " +

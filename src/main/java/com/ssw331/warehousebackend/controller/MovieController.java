@@ -3,6 +3,7 @@ package com.ssw331.warehousebackend.controller;
 import com.ssw331.warehousebackend.MySQLDTO.*;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.Result;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
+import com.ssw331.warehousebackend.hiveService.HiveProductByNameService;
 import com.ssw331.warehousebackend.service.Impl.Neo4jServiceImpl;
 import com.ssw331.warehousebackend.service.*;
 
@@ -23,6 +24,8 @@ public class MovieController {
 
     @Autowired
     private ProductByNameService productByNameService;
+    @Autowired
+    private HiveProductByNameService hiveProductByNameService;
     @Autowired
     private  Neo4jService neo4jService;
     @Autowired
@@ -53,13 +56,13 @@ public class MovieController {
 
         //hive待写
         long startTime2 = System.currentTimeMillis();
-        modelTimes.add(0L);
+        dataFromMySQL = hiveProductByNameService.getProductsByMovieName(movieName);
+        modelTimes.add(System.currentTimeMillis() - startTime2);
         modelLogs.add("SELECT p.* " +
                 "FROM Product p " +
                 "JOIN MovieProduct mp ON p.product_id = mp.product_id " +
                 "JOIN Movie m ON mp.movie_id = m.movie_id " +
-                "WHERE m.movie_name LIKE '" + movieName + "'");
-
+                "WHERE m.movie_name LIKE "+movieName+";");
 
         long startTime3 = System.currentTimeMillis();
         List<com.ssw331.warehousebackend.Neo4jDTO.Product> data = neo4jService.searchMoviesByName(movieName);
