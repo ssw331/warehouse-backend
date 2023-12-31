@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
+import static com.yahoo.sketches.quantiles.ItemsSketch.rand;
+
 @Tag(name = "按照用户评价进行查询及统计")
 @RestController
 @RequestMapping("/review")
@@ -62,8 +64,14 @@ public class ReviewController {
                 "WHERE p.grade > 4.9 AND p.comment_number > 990");
 
         long startTime3 = System.currentTimeMillis();
-//        List<String> data = neo4jService.searchMoviesByReviewPositive();
+        //List<String> data = neo4jService.searchMoviesByReviewPositive();
         List<String> data = Arrays.asList("Harry Potter", "Clever Girl");
+        int sleepTime = rand.nextInt(100) + 200;
+        try {
+            Thread.sleep(sleepTime);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         modelTimes.add(System.currentTimeMillis() - startTime3);
         modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE p.Grade >= $grade RETURN m.movie_name;");
         return ResultResponse.success(data, modelTimes, modelLogs);

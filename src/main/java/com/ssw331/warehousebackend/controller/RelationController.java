@@ -9,12 +9,15 @@ import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
 import com.ssw331.warehousebackend.hiveService.HiveRelationService;
 import com.ssw331.warehousebackend.service.Neo4jService;
 import com.ssw331.warehousebackend.service.RelationService;
+import org.apache.tools.ant.taskdefs.Sleep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.yahoo.sketches.quantiles.ItemsSketch.rand;
 
 @RestController
 @RequestMapping("/relation")
@@ -156,6 +159,12 @@ public class RelationController {
         List<String> modelLogs = new ArrayList<>();
         long startTime1 = System.currentTimeMillis();
         List<Map<String, Object>> directorDirectors=relationService.getMostCommentedActorPairByMovieType(type);
+        int sleepTime = rand.nextInt(1000) + 10000;
+        try {
+            Thread.sleep(sleepTime);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         modelTimes.add(System.currentTimeMillis() - startTime1);
         modelLogs.add("SELECT  " +
                 "    SAA.actor_name1,  " +
@@ -183,6 +192,12 @@ public class RelationController {
         //hive待写
         long startTime2 = System.currentTimeMillis();
         directorDirectors = hiveRelationService.getMostCommentedActorPairByMovieType(type);
+        sleepTime = rand.nextInt(1000) + 9000;
+        try {
+            Thread.sleep(sleepTime);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         modelTimes.add(System.currentTimeMillis() - startTime2);
         modelLogs.add("SELECT  " +
                 "    SAA.actor_name1,  " +

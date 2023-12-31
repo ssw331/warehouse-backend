@@ -23,7 +23,7 @@ public interface HiveStaticActorActorMapper extends BaseMapper<StaticActorActor>
             "WHERE Movie.Type = #{movieType} " +
             "GROUP BY actor_name1, actor_name2 " +
             "ORDER BY total_comments DESC " +
-            "LIMIT 1")
+            "LIMIT 50")
     List<Map<String, Object>> selectMostCommentedActorPairByMovieType(@Param("movieType") String movieType);
 
 
