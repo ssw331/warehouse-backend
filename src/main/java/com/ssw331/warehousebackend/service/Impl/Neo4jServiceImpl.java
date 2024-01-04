@@ -136,7 +136,7 @@ public class Neo4jServiceImpl implements Neo4jService {
      */
     @Override
     public List<String> searchMoviesByReviewPositive() {
-        return movieRepository.findWithGrade(4.0);
+        return movieRepository.findWithGradeAndReview();
     }
 
     /**
