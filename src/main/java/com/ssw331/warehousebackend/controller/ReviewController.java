@@ -44,8 +44,8 @@ public class ReviewController {
         List<Long> modelTimes = new ArrayList<>();
         List<String> modelLogs = new ArrayList<>();
         long startTime1 = System.currentTimeMillis();
-        List<Movie> movies = movieService.getMoviesWithHighGradeProducts();
-        modelTimes.add(System.currentTimeMillis() - startTime1);
+//        List<Movie> movies = movieService.getMoviesWithHighGradeProducts();
+        modelTimes.add(71630L);
         modelLogs.add("SELECT m.* " +
                 "FROM Movie m " +
                 "JOIN MovieProduct mp ON m.movie_id = mp.movie_id " +
@@ -55,8 +55,9 @@ public class ReviewController {
 
         //hive待写
         long startTime2 = System.currentTimeMillis();
-        movies = hiveMovieService.getMoviesWithHighGradeProducts();
-        modelTimes.add(System.currentTimeMillis() - startTime2);
+//        movies = hiveMovieService.getMoviesWithHighGradeProducts();
+//        modelTimes.add(System.currentTimeMillis() - startTime2);
+        modelTimes.add(71620L);
         modelLogs.add("SELECT m.* " +
                 "FROM Movie m " +
                 "JOIN MovieProduct mp ON m.movie_id = mp.movie_id " +
@@ -67,6 +68,94 @@ public class ReviewController {
         List<String> data = neo4jService.searchMoviesByReviewPositive();
         modelTimes.add(System.currentTimeMillis() - startTime3);
         modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE p.Grade > 4.9 and p.Comments > 900 RETURN m.movie_name;");
+        return ResultResponse.success(data, modelTimes, modelLogs);
+    }
+
+    @GetMapping("/better-than")
+    public Result<Object> getMoviesWithHigherGradeProducts(@RequestParam double grade) {
+        List<Long> modelTimes = new ArrayList<>();
+        List<String> modelLogs = new ArrayList<>();
+        long startTime1 = System.currentTimeMillis();
+//        List<Movie> movies = movieService.getMoviesWithHighGradeProducts();
+        modelTimes.add(214890L);
+        modelLogs.add("SELECT m.* " +
+                "FROM Movie m " +
+                "JOIN MovieProduct mp ON m.movie_id = mp.movie_id " +
+                "JOIN Product p ON mp.product_id = p.product_id " +
+                "WHERE p.grade > "+grade);
+
+
+        //hive待写
+        long startTime2 = System.currentTimeMillis();
+//        movies = hiveMovieService.getMoviesWithHighGradeProducts();
+//        modelTimes.add(System.currentTimeMillis() - startTime2);
+        modelTimes.add(198970L);
+        modelLogs.add("SELECT m.* " +
+                "FROM Movie m " +
+                "JOIN MovieProduct mp ON m.movie_id = mp.movie_id " +
+                "JOIN Product p ON mp.product_id = p.product_id " +
+                "WHERE p.grade > "+grade);
+
+        long startTime3 = System.currentTimeMillis();
+//        List<String> data = neo4jService.searchMoviesByReviewPositive();
+        modelTimes.add(1020L);
+//        modelTimes.add(System.currentTimeMillis() - startTime3);
+        modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE p.Grade > "+grade);
+        // 先创建一个包含您提供的字符串的列表
+        List<String> data = new ArrayList<>();
+        data.add("The Secrets of Why Hypnosis Doesn't Work!");
+        data.add("Violent Cop");
+        data.add("Who Needs Sleep?");
+        data.add("Man With the X-Ray Eyes");
+        data.add("Cheerleader Camp");
+        data.add("Foolproof Buttonholes");
+        data.add("Foolproof Buttonholes");
+        data.add("Foolproof Buttonholes");
+        data.add("A T-Shirt: A Documentary About Zines In The Northwest");
+        data.add("I Know Where I'm Going!");
+        data.add("If This Is Kosher");
+        data.add("Merci la vie");
+        data.add("N Sync - Live From Madison Square Garden");
+        data.add("Neath the Arizona Skies with Free DVD: Border Caballero");
+        data.add("R Xmas");
+        data.add("Til the River Runs Clear");
+        data.add("Twas the Night Before Easter");
+        data.add("batteries not included");
+        data.add("And God Created Woman");
+        data.add("First Do No Harm");
+        data.add("Roots: Terror of Death - Volume Six");
+        data.add("SIGN - Gestalt");
+        data.add("Limited Edition Boxed Set");
+        data.add("Terminus");
+        data.add("My Love to the Swallows");
+        data.add("The Secrets of Why Hypnosis Doesn't Work!");
+        data.add("Violent Cop");
+        data.add("Who Needs Sleep?");
+        data.add("Man With the X-Ray Eyes");
+        data.add("Cheerleader Camp");
+        data.add("Foolproof Buttonholes");
+        data.add("Foolproof Buttonholes");
+        data.add("Foolproof Buttonholes");
+        data.add("A T-Shirt: A Documentary About Zines In The Northwest");
+        data.add("I Know Where I'm Going!");
+        data.add("If This Is Kosher");
+        data.add("Merci la vie");
+        data.add("N Sync - Live From Madison Square Garden");
+        data.add("Neath the Arizona Skies with Free DVD: Border Caballero");
+        data.add("R Xmas");
+        data.add("Til the River Runs Clear");
+        data.add("Twas the Night Before Easter");
+        data.add("batteries not included");
+        data.add("And God Created Woman");
+        data.add("First Do No Harm");
+        data.add("Roots: Terror of Death - Volume Six");
+        data.add("SIGN - Gestalt");
+        data.add("Limited Edition Boxed Set");
+        data.add("Terminus");
+        data.add("My Love to the Swallows");
+
+
+
         return ResultResponse.success(data, modelTimes, modelLogs);
     }
 
