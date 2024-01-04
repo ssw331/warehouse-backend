@@ -27,7 +27,7 @@ public interface MovieRepository extends Neo4jRepository<Movie, String> {
     @Query("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE p.Grade >= $grade RETURN m.movie_name;")
     List<String> findWithGrade(double grade);
 
-    @Query("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE p.Grade >= 4.9 and p.Comments > 900 RETURN m.movie_name;")
+    @Query("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE p.Grade > 4.9 and p.Comments > 900 RETURN m.movie_name;")
     List<String> findWithGradeAndReview();
 
 }

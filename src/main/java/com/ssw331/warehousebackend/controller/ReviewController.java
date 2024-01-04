@@ -66,7 +66,7 @@ public class ReviewController {
         long startTime3 = System.currentTimeMillis();
         List<String> data = neo4jService.searchMoviesByReviewPositive();
         modelTimes.add(System.currentTimeMillis() - startTime3);
-        modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE p.Grade >= 4.9 and p.Comments > 900 RETURN m.movie_name;");
+        modelLogs.add("MATCH (m:Movie)-[r:INCLUDE]->(p:Product) WHERE p.Grade > 4.9 and p.Comments > 900 RETURN m.movie_name;");
         return ResultResponse.success(data, modelTimes, modelLogs);
     }
 
