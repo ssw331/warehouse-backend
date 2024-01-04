@@ -3,6 +3,8 @@
 package com.ssw331.warehousebackend.controller;
 
 import com.ssw331.warehousebackend.MySQLDTO.*;
+import com.ssw331.warehousebackend.Neo4jDTO.Collaboration_AA;
+import com.ssw331.warehousebackend.Neo4jDTO.Collaboration_DD;
 import com.ssw331.warehousebackend.Neo4jDTO.ReviewMax_AA;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.Result;
 import com.ssw331.warehousebackend.Neo4jDTO.serialization.ResultResponse;
@@ -142,7 +144,7 @@ public class RelationController {
                 "LIMIT 20");
 
         long startTime3 = System.currentTimeMillis();
-        List<com.ssw331.warehousebackend.Neo4jDTO.Collaboration_AA> data = neo4jService.searchCollaborationInAA();
+        List<Collaboration_DD> data = neo4jService.searchCollaborationInDD();
         modelTimes.add(System.currentTimeMillis() - startTime3);
         modelLogs.add("MATCH (p:Product)-[:COLLABORATED_WITH]->(sdd:StaticDirectorDirector) " +
                 "RETURN p " +
